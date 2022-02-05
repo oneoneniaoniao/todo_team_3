@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { useState } from 'react'
-import { Box, Button, chakra, Container, Heading, Input, Select, Text} from '@chakra-ui/react'
+import { Box, Button, Container, Heading, Text} from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 
 import TodoList from './components/TodoList'
@@ -13,18 +13,24 @@ export default function Home() {
       text: 'test sample 1',
       status: '着手前',
       priority: '高',
+      createDate: '2022-2-1',
+      updateDate: '2022-3-1',
     },
 
     {
       text: 'test sample 2',
       status: '進行中',
       priority: '中',
+      createDate: '2022-2-10',
+      updateDate: '2022-3-10',
     },
 
     {
       text: 'test sample 3',
       status: '完了',
       priority: '低',
+      createDate: '2022-2-20',
+      updateDate: '2022-3-4',
     },
   ]);
 
@@ -42,7 +48,7 @@ export default function Home() {
 
         <Container minH='calc(100% - 64px)' maxW='100%' bg='white' padding='5'>
           <Text fontSize='lg' fontWeight='bold' letterSpacing='3px'>
-            進行中のタスクは<chakra.span color='red.500'>n個</chakra.span>あります
+            {todos.length >= 1 ? `タスクは${todos.length}個あります` : '現在タスクはありません'}
           </Text>
 
           <Search />

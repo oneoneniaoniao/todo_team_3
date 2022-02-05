@@ -11,18 +11,18 @@ const Search = () => {
       <Box>
         <Text textAlign='center'>ステータス</Text>
         <Select placeholder='すべて'>
-          <option value='option1'>Option 1</option>
-          <option value='option2'>Option 2</option>
-          <option value='option3'>Option 3</option>
+          <option value='着手前'>着手前</option>
+          <option value='進行中'>進行中</option>
+          <option value='完了'>完了</option>
         </Select>
       </Box>
 
       <Box>
         <Text textAlign='center'>優先度</Text>
         <Select placeholder='すべて'>
-          <option value='option1'>Option 1</option>
-          <option value='option2'>Option 2</option>
-          <option value='option3'>Option 3</option>
+          <option value='低'>低</option>
+          <option value='中'>中</option>
+          <option value='高'>高</option>
         </Select>
       </Box>
     </Container>
