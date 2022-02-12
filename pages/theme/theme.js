@@ -1,15 +1,14 @@
-import {extendTheme} from "@chakra-ui/react"
+import { extendTheme } from "@chakra-ui/react";
 
 const theme = extendTheme({
-  styles:{
-    global:{
-      body:{
+  styles: {
+    global: {
+      body: {
         background: "#E5E5E5",
-        minHeight: "100vh"
+        minHeight: "100vh",
       },
-      
-    }
-  }
-})
+    },
+  },
+});
 
-export default theme
+export default theme;
