@@ -9,6 +9,9 @@ const theme = extendTheme({
       },
     },
   },
+  fonts: {
+    body: `"Roboto", ${base.fonts?.body}`,
+  },
 });
 
 export default theme;
