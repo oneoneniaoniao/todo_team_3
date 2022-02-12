@@ -14,8 +14,8 @@ const Priority = () => {
       width="163px" 
       height="52px" 
       placeholder='------------' 
-      isInvalid 
-      errorBorderColor='#BEBABA'  >
+      borderColor="#bebaba"
+      borderWidth="2px"  >
     <option value='option1'>高</option>
     <option value='option2'>中</option>
     <option value='option3'>低</option>

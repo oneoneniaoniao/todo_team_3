@@ -20,8 +20,19 @@ const addtask = () => {
     <Priority/>
     <Border />
     <Box pos="absolute" bottom="8" right="0">
-      <UserButton  bg={"#84ADC5"} color={"#FFFFFF"} text={"戻る"} mr={"28px"} />
-      <UserButton bg={"#4E758D"} color={"#FFFFFF"} text={"保存"} mr={"33px"}/>
+    <UserButton
+          colorScheme={"teal"}
+          color={"#FFFFFF"}
+          text={"戻る"}
+          mr={"28px"}
+        />
+        <UserButton
+          colorScheme={"blue"}
+          color={"#FFFFFF"}
+          text={"保存"}
+          mr={"33px"}
+        />
+      
     </Box>
    
 

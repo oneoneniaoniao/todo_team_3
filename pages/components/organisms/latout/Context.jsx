@@ -13,8 +13,8 @@ const Context = () => {
     <Textarea 
       width="800px" 
       height="47px"   
-      isInvalid 
-      errorBorderColor='#BEBABA'  
+      borderColor="#bebaba"
+      borderWidth="2px"
       />
     </Box>
    </HStack>
