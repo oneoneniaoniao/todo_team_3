@@ -4,7 +4,7 @@ import React from "react";
 const Task = () => {
   return (
     <>
-      <HStack marginTop="48px">
+      <HStack marginTop="48px" spacing="24px">
         <Box w="200px">
           <Text fontSize="24px" marginLeft="61px">
             タスク名:

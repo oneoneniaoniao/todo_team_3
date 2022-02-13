@@ -4,7 +4,7 @@ import React from "react";
 const Priority = () => {
   return (
     <>
-      <HStack>
+      <HStack spacing="24px">
         <Box w="200px">
           <Text fontSize="24px" marginLeft="61px">
             優先度:
