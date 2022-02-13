@@ -5,7 +5,7 @@ const Task = () => {
   return (
     <>
       <HStack marginTop="48px">
-        <Box w="180px">
+        <Box w="200px">
           <Text fontSize="24px" marginLeft="61px">
             タスク名:
           </Text>

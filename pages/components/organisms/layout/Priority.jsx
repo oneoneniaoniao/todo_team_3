@@ -5,7 +5,7 @@ const Priority = () => {
   return (
     <>
       <HStack>
-        <Box w="180px">
+        <Box w="200px">
           <Text fontSize="24px" marginLeft="61px">
             優先度:
           </Text>
