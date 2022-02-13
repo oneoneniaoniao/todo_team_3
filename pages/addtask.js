@@ -2,10 +2,10 @@ import { Box } from '@chakra-ui/react'
 import React from 'react'
 import Border from './components/atoms/Border'
 import UserButton from './components/atoms/Button'
-import Context from './components/organisms/latout/Context'
-import Header from './components/organisms/latout/Header'
-import Priority from './components/organisms/latout/Priority'
-import Task from './components/organisms/latout/Task'
+import Context from './components/organisms/layout/Context'
+import Header from './components/organisms/layout/Header'
+import Priority from './components/organisms/layout/Priority'
+import Task from './components/organisms/layout/Task'
 
 
 
