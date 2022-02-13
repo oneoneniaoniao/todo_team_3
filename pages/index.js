@@ -5,6 +5,8 @@ import { AddIcon } from '@chakra-ui/icons'
 
 import TodoList from './components/TodoList'
 import Search from './components/Search'
+import Link from "next/link";
+import styles from "../styles/Home.module.css";
 
 export default function Home() {
   // ダミーデータ
