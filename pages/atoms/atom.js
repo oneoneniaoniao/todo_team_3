@@ -1,4 +1,8 @@
 import { atom } from "recoil";
+import { recoilPersist } from "recoil-persist";
+
+
+const { persistAtom } = recoilPersist();
 
 export const todosState = atom({
   key:"todos",
@@ -21,5 +25,6 @@ export const todosState = atom({
     priority: '低',
     createDate: '2022-2-20',
     updateDate: '2022-3-4',
-  }]
+  }],
+  effects_UNSTABLE: [persistAtom]
 })
