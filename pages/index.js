@@ -5,11 +5,14 @@ import { AddIcon } from '@chakra-ui/icons'
 
 import TodoList from './components/TodoList'
 import Search from './components/Search'
-import Link from "next/link";
-import styles from "../styles/Home.module.css";
+import { useRecoilState } from 'recoil'
+import { todosState } from './atoms/atom'
+
 
 export default function Home() {
-  // ダミーデータ
+  /**useReoilStateを利用するためコメントアウトしました。by小野
+   * 
+   * // ダミーデータ
   const [todos, setTodos] = useState([
     {
       text: 'test sample 1',
@@ -35,6 +38,11 @@ export default function Home() {
       updateDate: '2022-3-4',
     },
   ]);
+   */
+  
+
+  //useReoilStateを利用
+  const [ todos, setTodos ] =useRecoilState(todosState)
 
   return (
     <>
