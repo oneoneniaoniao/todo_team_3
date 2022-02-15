@@ -1,48 +1,14 @@
 import Head from 'next/head'
-import { useState } from 'react'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { Box, Button, Container, Heading, Text} from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 
+import { todosState } from './atoms/atom'
 import TodoList from './components/TodoList'
 import Search from './components/Search'
-import { useRecoilState } from 'recoil'
-import { todosState } from './atoms/atom'
-
 
 export default function Home() {
-  /**useReoilStateを利用するためコメントアウトしました。by小野
-   * 
-   * // ダミーデータ
-  const [todos, setTodos] = useState([
-    {
-      text: 'test sample 1',
-      status: '着手前',
-      priority: '高',
-      createDate: '2022-2-1',
-      updateDate: '2022-3-1',
-    },
-
-    {
-      text: 'test sample 2',
-      status: '進行中',
-      priority: '中',
-      createDate: '2022-2-10',
-      updateDate: '2022-3-10',
-    },
-
-    {
-      text: 'test sample 3',
-      status: '完了',
-      priority: '低',
-      createDate: '2022-2-20',
-      updateDate: '2022-3-4',
-    },
-  ]);
-   */
-  
-
-  //useReoilStateを利用
-  const [ todos, setTodos ] =useRecoilState(todosState)
+  const todos = useRecoilValue(todosState);
 
   return (
     <>
@@ -70,9 +36,7 @@ export default function Home() {
             </Button>
           </Box>
 
-          <TodoList
-            todos={todos}
-          />
+          <TodoList />
         </Container>
       </Container>
     </>

@@ -1,3 +1,7 @@
+import Head from 'next/head';
+import Link from "next/link";
+import { useRouter } from 'next/router';
+import { useRecoilValue } from 'recoil';
 import {
   Box,
   Container,
@@ -7,11 +11,17 @@ import {
   Divider,
   Button,
 } from '@chakra-ui/react';
-import Head from 'next/head';
-import Image from 'next/image';
-import styles from '../styles/Home.module.css';
+
+import { todosState } from '../atoms/atom';
 
 export default function Detail() {
+  const router = useRouter();
+  const todos = useRecoilValue(todosState);
+  
+  const todo = todos.filter((todo) => {
+    return todo.id === Number(router.query.id)
+  })
+
   return (
     <>
       <Head>
@@ -40,9 +50,10 @@ export default function Detail() {
               <Spacer />
               <Box>:</Box>
             </Flex>
-            <Box ml={[0,8]}>NetFlixで気になるアニメを朝まで見続ける</Box>
+            {/* useRouter 使用時、１回目にundefinedが入りエラーを起こす為、オプショナルチェーンでundefinedを許可。 */}
+            <Box ml={[0,8]}>{todo[0]?.title}</Box>
           </Flex>
-          <Divider />
+          <Divider borderColor='gray' borderBottomWidth='2px' />
           <Flex minH={44} direction={["column","row"]}>
             <Flex w={24} minW={24}>
               <Box>内容</Box>
@@ -50,37 +61,38 @@ export default function Detail() {
               <Box>:</Box>
             </Flex>
             <Box ml={[0,8]}>
-              最近、忙しくてアニメを見る時間がないのでここらでひたすらアニメを見る時間が必要だと思う。
-              眠むたなっても大丈夫なようにmosterと眠眠打破を用意する。
-              もし、寝落ちしてしまったら、もう一度初めから見直す。
+              {todo[0]?.text}
             </Box>
           </Flex>
-          <Divider />
+          <Divider borderColor='gray' borderBottomWidth='2px' />
           <Flex>
             <Flex w={24} minW={24}>
               <Box>ステータス</Box>
               <Spacer />
               <Box>:</Box>
             </Flex>
-            <Box ml={8}>未着手</Box>
+            <Box ml={8}>{todo[0]?.status}</Box>
           </Flex>
-          <Divider />
+          <Divider borderColor='gray' borderBottomWidth='2px' />
           <Flex>
             <Flex w={24} minW={24}>
               <Box>優先度</Box>
               <Spacer />
               <Box>:</Box>
             </Flex>
-            <Box ml={8}>高</Box>
+            <Box ml={8}>{todo[0]?.priority}</Box>
           </Flex>
         </Stack>
       </Container>
       <Container maxW="container.lg" pos="fixed" bottom="0">
         <Flex>
           <Spacer/>
-        <Button _hover={{opacity:0.8}} m={4} bg="#84ADC5" color="white" w="80px">
-          戻る
-        </Button></Flex>
+          <Link href='/' passHref>
+            <Button _hover={{opacity:0.8}} m={4} bg="#84ADC5" color="white" w="80px">
+              戻る
+            </Button>
+          </Link>
+        </Flex>
       </Container>
     </>
   );

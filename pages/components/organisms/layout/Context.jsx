@@ -1,7 +1,9 @@
 import { Box, Flex, HStack, Text, Textarea } from "@chakra-ui/react";
 import React from "react";
 
-const Context = () => {
+const Context = (props) => {
+  const { editTodo } = props;
+
   return (
     <>
       <HStack spacing="24px">
@@ -16,6 +18,7 @@ const Context = () => {
             height="47px"
             borderColor="#bebaba"
             borderWidth="2px"
+            value={editTodo[0]?.text}
           />
         </Box>
       </HStack>

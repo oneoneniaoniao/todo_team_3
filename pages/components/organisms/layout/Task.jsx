@@ -1,7 +1,9 @@
-import { Box, Flex, HStack, Input, Spacer, Text } from "@chakra-ui/react";
-import React from "react";
+import { Box, HStack, Input, Text } from "@chakra-ui/react";
 
-const Task = () => {
+
+const Task = (props) => {
+  const { editTodo } = props;
+
   return (
     <>
       <HStack marginTop="48px" spacing="24px">
@@ -18,6 +20,7 @@ const Task = () => {
             borderColor="#bebaba"
             borderWidth="2px"
             margin="auto"
+            value={editTodo[0]?.title}
           />
         </Box>
       </HStack>

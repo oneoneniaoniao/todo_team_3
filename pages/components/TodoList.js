@@ -1,8 +1,12 @@
+import Link from "next/link";
+import { useRecoilValue } from "recoil";
 import { EditIcon } from "@chakra-ui/icons";
-import { Button, Checkbox, Container, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import { Button, Checkbox, Container, Table, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
 
-const TodoList = (props) => {
-  const { todos } = props;
+import { todosState } from "../atoms/atom";
+
+const TodoList = () => {
+  const todos = useRecoilValue(todosState);
 
   const renderStatus = (todo) => {
     switch(todo.status) {
@@ -54,8 +58,14 @@ const TodoList = (props) => {
             <Tr key={index}>
               <Td display='flex' justifyContent='space-between'>
                 <Checkbox />
-                {todo.text}
-                <Button size='xs' colorScheme='teal' variant='outline'><EditIcon /></Button>
+                <Link href={`/todos/${todo.id}`} passHref>
+                  <Text cursor='pointer' _hover={{opacity: 0.7}}>
+                    {todo.title}
+                  </Text>
+                </Link>
+                <Link href={`/todos/${todo.id}/edittask`} passHref>
+                  <Button size='xs' colorScheme='teal' variant='outline'><EditIcon /></Button>
+                </Link>
               </Td>
               <Td color={renderStatus(todo)}>{todo.status}</Td>
               <Td color={renderPriority(todo)}>{todo.priority}</Td>
