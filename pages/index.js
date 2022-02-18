@@ -70,9 +70,7 @@ export default function Home() {
             </Button>
           </Box>
 
-          <TodoList
-            todos={todos}
-          />
+          <TodoList/>
         </Container>
       </Container>
     </>
