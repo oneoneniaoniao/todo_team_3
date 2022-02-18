@@ -46,7 +46,7 @@ const addtask = () => {
       title: document.getElementById("task").value,
       text: document.getElementById("context").value,
       status: "着手前",
-      priority: "低",
+      priority: document.getElementById("priority").value,
       createDate: today(),
       updateDate: today(),
     });

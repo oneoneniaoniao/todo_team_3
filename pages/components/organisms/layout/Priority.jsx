@@ -15,14 +15,13 @@ const Priority = () => {
           <Select
             width="163px"
             height="52px"
-            placeholder="------------"
             borderColor="#bebaba"
             borderWidth="2px"
             id="priority"
           >
-            <option value="option1">高</option>
-            <option value="option2">中</option>
-            <option value="option3">低</option>
+            <option value="高">高</option>
+            <option value="中">中</option>
+            <option value="低" selected>低</option>
           </Select>
         </Box>
       </HStack>
