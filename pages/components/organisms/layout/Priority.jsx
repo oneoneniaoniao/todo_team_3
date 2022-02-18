@@ -18,6 +18,7 @@ const Priority = () => {
             placeholder="------------"
             borderColor="#bebaba"
             borderWidth="2px"
+            id="priority"
           >
             <option value="option1">高</option>
             <option value="option2">中</option>

@@ -2,7 +2,7 @@ import { Box, HStack, Input, Text } from "@chakra-ui/react";
 
 
 const Task = (props) => {
-  const { editTodo } = props;
+  const { editTodo, todo } = props;
 
   return (
     <>
@@ -20,7 +20,9 @@ const Task = (props) => {
             borderColor="#bebaba"
             borderWidth="2px"
             margin="auto"
-            value={editTodo[0]?.title}
+            id="task"
+            value={editTodo? editTodo[0]?.title : todo.title}
+            placeholder="タスク名を入力してください(必須)"
           />
         </Box>
       </HStack>

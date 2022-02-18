@@ -18,6 +18,7 @@ const Status = () => {
             placeholder="------------"
             borderColor="#bebaba"
             borderWidth="2px"
+            id="status"
           >
             <option value="option1">未着手</option>
             <option value="option2">進行中</option>
