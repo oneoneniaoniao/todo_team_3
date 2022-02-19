@@ -1,7 +1,25 @@
-import { Box, Flex, HStack, Text, Textarea } from "@chakra-ui/react";
-import React from "react";
+import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
+import { Box, HStack, Text, Textarea } from "@chakra-ui/react";
+
+import { todosState } from "../../../atoms/atom";
 
 const Context = () => {
+  const { query } = useRouter();
+  const [todos, setTodos] = useRecoilState(todosState);
+    
+  const editTodo = todos.filter((todo) => {
+    return todo.id === Number(query.id);
+  })
+
+  const handleChange = (e) => {
+    setTodos(todos.map((todo) => {
+      if (todo.id === editTodo[0]?.id) {
+        return todo.title = e.target.value;
+      }
+    }))
+  }
+
   return (
     <>
       <HStack spacing="24px">
@@ -16,6 +34,8 @@ const Context = () => {
             height="47px"
             borderColor="#bebaba"
             borderWidth="2px"
+            value={editTodo[0]?.text}
+            onChange={handleChange}
           />
         </Box>
       </HStack>
