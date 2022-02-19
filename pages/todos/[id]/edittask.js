@@ -68,6 +68,7 @@ const edittask = () => {
           color={"#FFFFFF"}
           text={"戻る"}
           mr={"28px"}
+          url={"/"}
         />
         <UserButton
           colorScheme={"blue"}
