@@ -4,6 +4,7 @@ import Link from "next/link";
 
 const UserButton = (props) => {
   const { colorScheme, color, text, mr } = props;
+
   return (
     <Link href='/' passHref>
       <Button colorScheme={colorScheme} color={color} mr={mr}>

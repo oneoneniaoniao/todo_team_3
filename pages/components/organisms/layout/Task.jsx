@@ -1,8 +1,24 @@
+import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
 import { Box, HStack, Input, Text } from "@chakra-ui/react";
 
+import { todosState } from "../../../atoms/atom";
 
-const Task = (props) => {
-  const { editTodo } = props;
+const Task = () => {
+  const { query } = useRouter()
+  const [todos, setTodos] = useRecoilState(todosState)
+    
+  const editTodo = todos.filter((todo) => {
+    return todo.id === Number(query.id);
+  })
+
+  const handleChange = (e) => {
+    setTodos(todos.map((todo) => {
+      if (todo.id === editTodo[0]?.id) {
+        return todo.title = e.target.value;
+      }
+    }))
+  }
 
   return (
     <>
@@ -21,6 +37,7 @@ const Task = (props) => {
             borderWidth="2px"
             margin="auto"
             value={editTodo[0]?.title}
+            onChange={handleChange}
           />
         </Box>
       </HStack>

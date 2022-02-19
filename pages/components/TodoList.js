@@ -54,8 +54,8 @@ const TodoList = () => {
         </Thead>
 
         <Tbody>
-          {todos.map((todo, index) => (
-            <Tr key={index}>
+          {todos.map((todo) => (
+            <Tr key={todo.id}>
               <Td display='flex' justifyContent='space-between'>
                 <Checkbox />
                 <Link href={`/todos/${todo.id}`} passHref>
