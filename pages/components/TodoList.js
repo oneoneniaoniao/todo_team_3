@@ -1,12 +1,10 @@
 import Link from "next/link";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import { EditIcon } from "@chakra-ui/icons";
 import {
   Button,
   Checkbox,
   Container,
-  Flex,
-  Grid,
   Select,
   Table,
   Tbody,
@@ -18,10 +16,11 @@ import {
 } from "@chakra-ui/react";
 
 import { todosState } from "../atoms/atom";
-import { useState } from "react";
+import StatusSelect from "./atoms/StatusSelect";
+import PrioritySelect from "./atoms/PrioritySelect";
 
 const TodoList = () => {
-  const [todos, setTodos] = useRecoilState(todosState);
+  const todos = useRecoilValue(todosState);
 
   const renderStatus = (todo) => {
     switch (todo.status) {
@@ -55,60 +54,6 @@ const TodoList = () => {
     }
   };
 
-  const [isEditable, setIsEditable] = useState(false);
-  const [editId, setEditId] = useState();
-  const [newStatus, setNewStatus] = useState();
-  const [newPriority, setNewPriority] = useState();
-
-  // ステータスの実装
-
-  const handleSetNewStatus = (id,staus) => {
-    
-    const foundTodo = todos.findIndex((todo) => todo.id === id);
-
-    const replaceItemAtIndex = (todos, foundTodo, newValue) => {
-      return [
-        ...todos.slice(0, foundTodo),
-        newValue,
-        ...todos.slice(foundTodo + 1),
-      ];
-    };
-
-    setTodos(() => {
-      if (todos[foundTodo].status) {
-        return replaceItemAtIndex(todos, foundTodo, {
-          ...todos[foundTodo],
-          status: staus,
-        });
-      }
-    });
-  };
-
-  
-  // 優先度の実装
-  const handleSetNewPriority = (id,priority) => {
-    
-    const foundTodo = todos.findIndex((todo) => todo.id === id);
-    
-    const replaceItemAtIndex = (todos, foundTodo, newValue) => {
-      return [
-        ...todos.slice(0, foundTodo),
-        newValue,
-        ...todos.slice(foundTodo + 1),
-      ];
-    };
-    
-    setTodos(() => {
-      if (todos[foundTodo].priority) {
-        return replaceItemAtIndex(todos, foundTodo, {
-          ...todos[foundTodo],
-          priority: priority,
-        });
-      }
-    });
-    console.log();
-  };
-  
   console.log(todos);
 
   return (
@@ -147,30 +92,13 @@ const TodoList = () => {
                 </Td>
 
                 <Td color={renderStatus(todo)}>
-                  <select
-                    value={todo.status}
-                    onChange={(e) => handleSetNewStatus(todo.id,e.target.value)}
-                    w="8px"
-                  >
-                    <option value="着手前">着手前</option>
-                    <option value="進行中">進行中</option>
-                    <option value="完了">完了</option>
-                  </select>
+                  <StatusSelect todo={todo} />
                 </Td>
 
                 <Td color={renderPriority(todo)}>
-                  <select
-                    value={todo.priority}
-                    onChange={(e)=>handleSetNewPriority(todo.id,e.target.value)}
-                    w="8px"
-                  >
-                    <option value="高">高</option>
-                    <option value="中">中</option>
-                    <option value="低">低</option>
-                  </select>
+                  <PrioritySelect todo={todo} />
                 </Td>
 
-                {/* <Td color={renderPriority(todo)}>{todo.priority}</Td> */}
                 <Td>{todo.createDate}</Td>
                 <Td>{todo.updateDate}</Td>
               </Tr>
