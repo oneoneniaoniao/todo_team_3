@@ -59,43 +59,35 @@ const TodoList = () => {
   const [editId, setEditId] = useState();
   const [newStatus, setNewStatus] = useState();
   const [newPriority, setNewPriority] = useState();
-  
 
   // ステータスの実装
-  const handleSetNewStatus = (e) => {
-    setNewStatus(e.target.value);
+
+  const handleSetNewStatus = (id) => {
+    const foundTodo = todos.findIndex((todo) => todo.id === id);
+
+    const replaceItemAtIndex = (todos, foundTodo, newValue) => {
+      return [
+        ...todos.slice(0, foundTodo),
+        newValue,
+        ...todos.slice(foundTodo + 1),
+      ];
+    };
+
+    setTodos(() => {
+      if (todos[foundTodo].status) {
+        return replaceItemAtIndex(todos, foundTodo, {
+          ...todos[foundTodo],
+          status: "完了",
+        });
+      }
+    });
   };
-
-  const handleOpenEditStatus = ({ id, status }) => {
-    setEditId(id);
-    setIsEditable(true);
-    setNewStatus(status);
-    console.log(isEditable);
-    
-  };
-
-  const handleCloseEditStatus = () => {
-    setIsEditable(false);
-    setEditId();
-    setNewStatus();
-  };
-
-  // 編集フォームへの値のコピー
-  const handleEditStatus = () => {
-    setTodos(
-      [...todos].map((todo) =>
-        todo.id === editId ? { ...todo, status: newStatus } : todo
-      )
-    );
-
-    handleCloseEditStatus();
-    setEditId();
-    setNewStatus();
-  };
-
-  // console.log(todos);
 
   // 優先度の実装
+  const updateTodoPriority = (id) => {
+    const index = todos.find((todo) => todo.id === id);
+    setTodos(() => {});
+  };
   const handleSetNewPriority = (e) => {
     setNewPriority(e.target.value);
   };
@@ -104,8 +96,6 @@ const TodoList = () => {
     setEditId(id);
     setIsEditable(true);
     setNewPriority(priority);
-    console.log(isEditable);
-    
   };
 
   const handleCloseEditPriority = () => {
@@ -126,8 +116,7 @@ const TodoList = () => {
     setEditId();
     setNewPriority();
   };
-
-  // console.log(todos);
+  console.log(todos);
 
   return (
     <>
@@ -163,83 +152,30 @@ const TodoList = () => {
                     </Button>
                   </Link>
                 </Td>
-                {!isEditable ? (
-                  <Td color={renderStatus(todo)}>
-                    <Flex justifyContent="space-between">
-                      <Text lineHeight="32.5px">{todo.status}</Text>
-                      <Button
-                        p="16px"
-                        size="sm"
-                        onClick={() => handleOpenEditStatus(todo)}
-                        value="edit"
-                      >
-                        編集
-                      </Button>
-                    </Flex>
-                  </Td>
-                ) : (
-                  <Td color={renderStatus(todo)}>
-                    <Flex justifyContent="space-between">
-                      <select
-                        value={newStatus}
-                        onChange={handleSetNewStatus}
-                        w="8px"
-                      >
-                        <option value="着手前">着手前</option>
-                        <option value="進行中">進行中</option>
-                        <option value="完了">完了</option>
-                      </select>
 
-                      <Button
-                        p="16px"
-                        size="sm"
-                        onClick={() => handleEditStatus()}
-                        value="save"
-                      >
-                        保存
-                      </Button>
-                    </Flex>
-                  </Td>
-                )}
+                <Td color={renderStatus(todo)}>
+                  <select
+                    // value={}
+                    onChange={(e) => handleSetNewStatus(todo.id)}
+                    w="8px"
+                  >
+                    <option value="着手前">着手前</option>
+                    <option value="進行中">進行中</option>
+                    <option value="完了">完了</option>
+                  </select>
+                </Td>
 
-                {!isEditable ? (
-                  <Td color={renderPriority(todo)}>
-                    <Flex justifyContent="space-between">
-                      <Text lineHeight="32.5px">{todo.priority}</Text>
-                      <Button
-                        p="16px"
-                        size="sm"
-                        onClick={() => handleOpenEditPriority(todo)}
-                        value="edit"
-                      >
-                        編集
-                      </Button>
-                    </Flex>
-                  </Td>
-                ) : (
-                  <Td color={renderPriority(todo)}>
-                    <Flex justifyContent="space-between">
-                      <select
-                        value={newPriority}
-                        onChange={handleSetNewPriority}
-                        w="8px"
-                      >
-                        <option value="高">高</option>
-                        <option value="中">中</option>
-                        <option value="低">低</option>
-                      </select>
-
-                      <Button
-                        p="16px"
-                        size="sm"
-                        onClick={() => handleEditPriority()}
-                        value="save"
-                      >
-                        保存
-                      </Button>
-                    </Flex>
-                  </Td>
-                )}
+                <Td color={renderPriority(todo)}>
+                  <select
+                    // value={newPriority}
+                    // onChange={handleSetNewPriority}
+                    w="8px"
+                  >
+                    <option value="高">高</option>
+                    <option value="中">中</option>
+                    <option value="低">低</option>
+                  </select>
+                </Td>
 
                 {/* <Td color={renderPriority(todo)}>{todo.priority}</Td> */}
                 <Td>{todo.createDate}</Td>
