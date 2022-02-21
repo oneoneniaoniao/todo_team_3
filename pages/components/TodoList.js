@@ -62,7 +62,8 @@ const TodoList = () => {
 
   // ステータスの実装
 
-  const handleSetNewStatus = (id) => {
+  const handleSetNewStatus = (id,staus) => {
+    
     const foundTodo = todos.findIndex((todo) => todo.id === id);
 
     const replaceItemAtIndex = (todos, foundTodo, newValue) => {
@@ -77,45 +78,37 @@ const TodoList = () => {
       if (todos[foundTodo].status) {
         return replaceItemAtIndex(todos, foundTodo, {
           ...todos[foundTodo],
-          status: "完了",
+          status: staus,
         });
       }
     });
   };
 
+  
   // 優先度の実装
-  const updateTodoPriority = (id) => {
-    const index = todos.find((todo) => todo.id === id);
-    setTodos(() => {});
+  const handleSetNewPriority = (id,priority) => {
+    
+    const foundTodo = todos.findIndex((todo) => todo.id === id);
+    
+    const replaceItemAtIndex = (todos, foundTodo, newValue) => {
+      return [
+        ...todos.slice(0, foundTodo),
+        newValue,
+        ...todos.slice(foundTodo + 1),
+      ];
+    };
+    
+    setTodos(() => {
+      if (todos[foundTodo].priority) {
+        return replaceItemAtIndex(todos, foundTodo, {
+          ...todos[foundTodo],
+          priority: priority,
+        });
+      }
+    });
+    console.log();
   };
-  const handleSetNewPriority = (e) => {
-    setNewPriority(e.target.value);
-  };
-
-  const handleOpenEditPriority = ({ id, priority }) => {
-    setEditId(id);
-    setIsEditable(true);
-    setNewPriority(priority);
-  };
-
-  const handleCloseEditPriority = () => {
-    setIsEditable(false);
-    setEditId();
-    setNewStatus();
-  };
-
-  // 編集フォームへの値のコピー
-  const handleEditPriority = () => {
-    setTodos(
-      [...todos].map((todo) =>
-        todo.id === editId ? { ...todo, priority: newPriority } : todo
-      )
-    );
-
-    handleCloseEditPriority();
-    setEditId();
-    setNewPriority();
-  };
+  
   console.log(todos);
 
   return (
@@ -155,8 +148,8 @@ const TodoList = () => {
 
                 <Td color={renderStatus(todo)}>
                   <select
-                    // value={}
-                    onChange={(e) => handleSetNewStatus(todo.id)}
+                    value={todo.status}
+                    onChange={(e) => handleSetNewStatus(todo.id,e.target.value)}
                     w="8px"
                   >
                     <option value="着手前">着手前</option>
@@ -167,8 +160,8 @@ const TodoList = () => {
 
                 <Td color={renderPriority(todo)}>
                   <select
-                    // value={newPriority}
-                    // onChange={handleSetNewPriority}
+                    value={todo.priority}
+                    onChange={(e)=>handleSetNewPriority(todo.id,e.target.value)}
                     w="8px"
                   >
                     <option value="高">高</option>
