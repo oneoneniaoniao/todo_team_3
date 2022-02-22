@@ -1,8 +1,24 @@
+import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
 import { Box, HStack, Input, Text } from "@chakra-ui/react";
 
+import { todosState } from "../../../atoms/atom";
 
-const Task = (props) => {
-  const { editTodo, todo } = props;
+const Task = () => {
+  const { query } = useRouter()
+  const [todos, setTodos] = useRecoilState(todosState)
+    
+  const editTodo = todos.filter((todo) => {
+    return todo.id === Number(query.id);
+  })
+
+  const handleChange = (e) => {
+    setTodos(todos.map((todo) => {
+      if (todo.id === editTodo[0]?.id) {
+        return todo.title = e.target.value;
+      }
+    }))
+  }
 
   return (
     <>
@@ -20,9 +36,8 @@ const Task = (props) => {
             borderColor="#bebaba"
             borderWidth="2px"
             margin="auto"
-            id="task"
-            value={editTodo? editTodo[0]?.title : todo.title}
-            placeholder="タスク名を入力してください(必須)"
+            value={editTodo[0]?.title}
+            onChange={handleChange}
           />
         </Box>
       </HStack>

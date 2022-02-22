@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
-import { useRecoilState } from "recoil";
-import { Box} from "@chakra-ui/react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { Box, CircularProgress} from "@chakra-ui/react";
 
 import { todosState } from "../../atoms/atom";
 import Border from "../../components/atoms/Border";
@@ -12,23 +12,45 @@ import Status from "../../components/organisms/layout/Status";
 import Task from "../../components/organisms/layout/Task";
 
 const edittask = () => {
-  // react-hooksのルール通りではないと警告が出る為、一時的にeslintを無効化
-  
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const router = useRouter();
+  const { query, isReady } = useRouter()
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [todos, setTodos] = useRecoilState(todosState)
-  
+  const todos = useRecoilValue(todosState)
+    
   const editTodo = todos.filter((todo) => {
-    return todo.id === Number(router.query.id);
+    return todo.id === Number(query.id);
   })
 
+  if (!isReady) {
+    return (
+      <>
+        <Header />
+        <CircularProgress
+          size='200px'
+          position='absolute'
+          top='50%'
+          left='50%'
+          transform='translateX(-50%) translateY(-50%)'
+          isIndeterminate
+          color='green.300'
+        />
+        <Box pos="absolute" bottom="8" right="0">
+          <UserButton
+            colorScheme={"teal"}
+            color={"#FFFFFF"}
+            text={"戻る"}
+            mr={"28px"}
+          />
+        </Box>
+      </>
+    )
+  }
   return (
     <>
       <Header />
-      <Task editTodo={editTodo} />
+      <Task />
       <Border />
-      <Context editTodo={editTodo} />
+      <Context />
       <Border />
       <Status />
       <Border />
@@ -46,6 +68,7 @@ const edittask = () => {
           color={"#FFFFFF"}
           text={"戻る"}
           mr={"28px"}
+          url={"/"}
         />
         <UserButton
           colorScheme={"blue"}

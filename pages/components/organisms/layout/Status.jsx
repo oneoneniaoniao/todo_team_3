@@ -1,7 +1,25 @@
-import { Box, Flex, HStack, Input, Select, Text } from "@chakra-ui/react";
-import React from "react";
+import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
+import { Box, HStack, Select, Text } from "@chakra-ui/react";
+
+import { todosState } from "../../../atoms/atom";
 
 const Status = () => {
+  const { query } = useRouter()
+  const [todos, setTodos] = useRecoilState(todosState);
+    
+  const editTodo = todos.filter((todo) => {
+    return todo.id === Number(query.id);
+  })
+
+  const handleChange = (e) => {
+    setTodos(todos.map((todo) => {
+      if (todo.id === editTodo[0]?.id) {
+        return todo.title = e.target.value;
+      }
+    }))
+  }
+
   return (
     <>
       <HStack spacing="24px">
@@ -18,11 +36,12 @@ const Status = () => {
             placeholder="------------"
             borderColor="#bebaba"
             borderWidth="2px"
-            id="status"
+            value={editTodo[0]?.status}
+            onChange={handleChange}
           >
-            <option value="option1">未着手</option>
-            <option value="option2">進行中</option>
-            <option value="option3">完了</option>
+            <option value="着手前">着手前</option>
+            <option value="進行中">進行中</option>
+            <option value="完了">完了</option>
           </Select>
         </Box>
       </HStack>

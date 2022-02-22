@@ -1,7 +1,25 @@
-import { Box, Flex, HStack, Input, Select, Text } from "@chakra-ui/react";
-import React from "react";
+import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
+import { Box, HStack, Select, Text } from "@chakra-ui/react";
+
+import { todosState } from "../../../atoms/atom";
 
 const Priority = () => {
+  const { query } = useRouter()
+  const [todos, setTodos] = useRecoilState(todosState)
+    
+  const editTodo = todos.filter((todo) => {
+    return todo.id === Number(query.id);
+  })
+
+  const handleChange = (e) => {
+    setTodos(todos.map((todo) => {
+      if (todo.id === editTodo[0]?.id) {
+        return todo.title = e.target.value;
+      }
+    }))
+  }
+
   return (
     <>
       <HStack spacing="24px">
@@ -17,11 +35,12 @@ const Priority = () => {
             height="52px"
             borderColor="#bebaba"
             borderWidth="2px"
-            id="priority"
+            value={editTodo[0]?.priority}
+            onChange={handleChange}
           >
             <option value="高">高</option>
             <option value="中">中</option>
-            <option value="低" selected>低</option>
+            <option value="低">低</option>
           </Select>
         </Box>
       </HStack>
