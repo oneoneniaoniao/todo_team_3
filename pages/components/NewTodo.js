@@ -16,7 +16,6 @@ import {
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
-import {useEffect} from 'react'
 import { todosState, idState } from "../atoms/atom";
 import UserButton from "./atoms/Button";
 
@@ -24,9 +23,6 @@ const NewTodo = () => {
   const router = useRouter();
   const [todos, setTodos] = useRecoilState(todosState);
   const [id, setId] = useRecoilState(idState);
-  useEffect(() => {
-
-  }, []);
   const {
     register,
     handleSubmit,
