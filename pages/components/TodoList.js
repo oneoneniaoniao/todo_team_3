@@ -54,7 +54,7 @@ const TodoList = () => {
     }
   };
 
-  console.log(todos);
+  
 
   return (
     <>

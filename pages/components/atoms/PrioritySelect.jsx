@@ -23,7 +23,7 @@ const PrioritySelect = ({ todo }) => {
         });
       }
     });
-    console.log();
+   
   };
   return (
     <select
