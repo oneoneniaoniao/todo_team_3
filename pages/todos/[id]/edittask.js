@@ -53,11 +53,6 @@ const NewTodo = () => {
     setNewPriority(e.target.value);
   };
 
-  console.log(newTitle);
-  console.log(newText);
-  console.log(newStatus);
-  console.log(newPriority);
-
   const handleEditTodo = (id, title, text, status, priority) => {
     const foundTodo = todos.findIndex((todo) => todo.id === id);
 
@@ -187,15 +182,15 @@ const NewTodo = () => {
         </Container>
         <Spacer />
       </form>
-
-      <Box pos="absolute" bottom="8" right="0">
+    
+      <Box pos="absolute"  right="0">
         <Button
           colorScheme="red"
           mr={"28px"}
           onClick={() =>
             toast({
               title: "削除しました",
-              position:"top",
+              position: "top",
               status: "error",
               duration: 1000,
               isClosable: true,
@@ -213,6 +208,7 @@ const NewTodo = () => {
         />
         <Button
           colorScheme="blue"
+          mr="8px"
           onClick={() =>
             handleEditTodo(
               editTodo[0]?.id,
