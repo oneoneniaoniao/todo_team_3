@@ -4,7 +4,6 @@ import {
   Stack,
   Flex,
   Box,
-  Text,
   Spacer,
   Divider,
   Textarea,
@@ -12,22 +11,22 @@ import {
   FormControl,
   FormLabel,
   Input,
-  CircularProgress,
+  useToast,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { useForm } from "react-hook-form";
+import { useRecoilState } from "recoil";
 import UserButton from "../../components/atoms/Button";
 import { todosState } from "../../atoms/atom";
 import Header from "../../components/organisms/layout/Header";
+import { useState } from "react";
 
 const NewTodo = () => {
-  const router = useRouter();
-  // const [todos, setTodos] = useRecoilState(todosState);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { query, isReady } = useRouter();
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [todos, setTodos] = useRecoilState(todosState);
+  const router = useRouter();
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { query } = useRouter();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
 
   const editTodo = todos.filter((todo) => {
     return todo.id === Number(query.id);
@@ -35,18 +34,32 @@ const NewTodo = () => {
   if (!router.isReady) {
     return null;
   }
+  const [newTitle, setNewTitle] = useState(editTodo[0].title);
+  const [newText, setNewText] = useState(editTodo[0].text);
+  const [newStatus, setNewStatus] = useState(editTodo[0].status);
+  const [newPriority, setNewPriority] = useState(editTodo[0].priority);
+  const toast = useToast();
 
-  console.log(editTodo[0]);
-
-  const today = () => {
-    const year = new Date().getFullYear() + "-";
-    const month = new Date().getMonth() * 1 + 1 + "-";
-    const date = new Date().getDate();
-    return year + month + date;
+  const handleSetNewTitle = (e) => {
+    setNewTitle(e.target.value);
+  };
+  const handleSetNewText = (e) => {
+    setNewText(e.target.value);
+  };
+  const handleSetNewStatus = (e) => {
+    setNewStatus(e.target.value);
+  };
+  const handleSetNewPriority = (e) => {
+    setNewPriority(e.target.value);
   };
 
-  const hadleEditTask = (title) => {
-    const foundTodo = todos.findIndex((todo) => todo.id === editTodo[0]?.id);
+  console.log(newTitle);
+  console.log(newText);
+  console.log(newStatus);
+  console.log(newPriority);
+
+  const handleEditTodo = (id, title, text, status, priority) => {
+    const foundTodo = todos.findIndex((todo) => todo.id === id);
 
     const replaceItemAtIndex = (todos, foundTodo, newValue) => {
       return [
@@ -55,75 +68,34 @@ const NewTodo = () => {
         ...todos.slice(foundTodo + 1),
       ];
     };
-    setTodos(() => {
-      if (todos[foundTodo].title) {
-        return replaceItemAtIndex(todos, foundTodo, {
-          ...todos[foundTodo],
-          title: title,
-        });
-      }
-    });
-  };
 
-  const hadleEditText = (text) => {
-    const foundTodo = todos.findIndex((todo) => todo.id === editTodo[0]?.id);
-
-    const replaceItemAtIndex = (todos, foundTodo, newValue) => {
-      return [
-        ...todos.slice(0, foundTodo),
-        newValue,
-        ...todos.slice(foundTodo + 1),
-      ];
-    };
-    setTodos(() => {
-      if (todos[foundTodo].text) {
-        return replaceItemAtIndex(todos, foundTodo, {
-          ...todos[foundTodo],
-          text: text,
-        });
-      }
-    });
-  };
-
-  const hadleEditStatus = (status) => {
-    const foundTodo = todos.findIndex((todo) => todo.id === editTodo[0]?.id);
-
-    const replaceItemAtIndex = (todos, foundTodo, newValue) => {
-      return [
-        ...todos.slice(0, foundTodo),
-        newValue,
-        ...todos.slice(foundTodo + 1),
-      ];
-    };
-    setTodos(() => {
-      if (todos[foundTodo].status) {
-        return replaceItemAtIndex(todos, foundTodo, {
-          ...todos[foundTodo],
-          status: status,
-        });
-      }
-    });
-  };
-
-  const hadleEditPriority = (priority) => {
-    const foundTodo = todos.findIndex((todo) => todo.id === editTodo[0]?.id);
-
-    const replaceItemAtIndex = (todos, foundTodo, newValue) => {
-      return [
-        ...todos.slice(0, foundTodo),
-        newValue,
-        ...todos.slice(foundTodo + 1),
-      ];
-    };
     setTodos(() => {
       if (todos[foundTodo].priority) {
         return replaceItemAtIndex(todos, foundTodo, {
           ...todos[foundTodo],
+          title: title,
+          text: text,
+          status: status,
           priority: priority,
         });
       }
     });
+
+    toast({
+      title: "保存しました.",
+      position: "top",
+      status: "success",
+      duration: 1000,
+      isClosable: true,
+    });
   };
+
+  // const today = () => {
+  //   const year = new Date().getFullYear() + "-";
+  //   const month = new Date().getMonth() * 1 + 1 + "-";
+  //   const date = new Date().getDate();
+  //   return year + month + date;
+  // };
 
   return (
     <>
@@ -143,8 +115,8 @@ const NewTodo = () => {
                     ml={[0, 6]}
                     borderColor="#bebaba"
                     borderWidth="2px"
-                    value={editTodo[0].title}
-                    onChange={(e) => hadleEditTask(e.target.value)}
+                    value={newTitle}
+                    onChange={handleSetNewTitle}
                   />
                 </Box>
               </Flex>
@@ -162,8 +134,8 @@ const NewTodo = () => {
                   borderColor="#bebaba"
                   borderWidth="2px"
                   h="180px"
-                  value={editTodo[0].text}
-                  onChange={(e) => hadleEditText(e.target.value)}
+                  value={newText}
+                  onChange={handleSetNewText}
                 />
               </Flex>
             </FormControl>
@@ -180,8 +152,8 @@ const NewTodo = () => {
                   borderColor="#bebaba"
                   borderWidth="2px"
                   w=""
-                  value={editTodo[0].status}
-                  onChange={(e) => hadleEditStatus(e.target.value)}
+                  value={newStatus}
+                  onChange={handleSetNewStatus}
                 >
                   <option value="着手前">着手前</option>
                   <option value="進行中">進行中</option>
@@ -202,8 +174,8 @@ const NewTodo = () => {
                   borderColor="#bebaba"
                   borderWidth="2px"
                   w=""
-                  value={editTodo[0].priority}
-                  onChange={(e) => hadleEditPriority(e.target.value)}
+                  value={newPriority}
+                  onChange={handleSetNewPriority}
                 >
                   <option value="低">低</option>
                   <option value="中">中</option>
@@ -215,13 +187,23 @@ const NewTodo = () => {
         </Container>
         <Spacer />
       </form>
+
       <Box pos="absolute" bottom="8" right="0">
-        <UserButton
-          colorScheme={"red"}
-          color={"#FFFFFF"}
-          text={"削除"}
+        <Button
+          colorScheme="red"
           mr={"28px"}
-        />
+          onClick={() =>
+            toast({
+              title: "削除しました",
+              position:"top",
+              status: "error",
+              duration: 1000,
+              isClosable: true,
+            })
+          }
+        >
+          削除
+        </Button>
         <UserButton
           colorScheme={"teal"}
           color={"#FFFFFF"}
@@ -229,12 +211,20 @@ const NewTodo = () => {
           mr={"28px"}
           url={"/"}
         />
-        <UserButton
-          colorScheme={"blue"}
-          color={"#FFFFFF"}
-          text={"保存"}
-          mr={"33px"}
-        />
+        <Button
+          colorScheme="blue"
+          onClick={() =>
+            handleEditTodo(
+              editTodo[0]?.id,
+              newTitle,
+              newText,
+              newStatus,
+              newPriority
+            )
+          }
+        >
+          保存
+        </Button>
       </Box>
     </>
   );
