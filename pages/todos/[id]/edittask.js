@@ -38,6 +38,13 @@ const NewTodo = () => {
   const [newText, setNewText] = useState(editTodo[0].text);
   const [newStatus, setNewStatus] = useState(editTodo[0].status);
   const [newPriority, setNewPriority] = useState(editTodo[0].priority);
+
+  const today = () => {
+    const year = new Date().getFullYear() + "-";
+    const month = new Date().getMonth() * 1 + 1 + "-";
+    const date = new Date().getDate();
+    return year + month + date;
+  };
   const toast = useToast();
 
   const handleSetNewTitle = (e) => {
@@ -55,6 +62,15 @@ const NewTodo = () => {
 
   const handleEditTodo = (id, title, text, status, priority) => {
     const foundTodo = todos.findIndex((todo) => todo.id === id);
+    if(title === "" || text === ""){
+      return toast({
+        title: "文字を入力してください",
+        position: "top",
+        status: 'warning',
+        duration: 2000,
+        isClosable: true,
+      });
+    }
 
     const replaceItemAtIndex = (todos, foundTodo, newValue) => {
       return [
@@ -72,6 +88,7 @@ const NewTodo = () => {
           text: text,
           status: status,
           priority: priority,
+          updateDate: today(),
         });
       }
     });
@@ -84,13 +101,6 @@ const NewTodo = () => {
       isClosable: true,
     });
   };
-
-  // const today = () => {
-  //   const year = new Date().getFullYear() + "-";
-  //   const month = new Date().getMonth() * 1 + 1 + "-";
-  //   const date = new Date().getDate();
-  //   return year + month + date;
-  // };
 
   return (
     <>
@@ -182,8 +192,8 @@ const NewTodo = () => {
         </Container>
         <Spacer />
       </form>
-    
-      <Box pos="absolute"  right="0">
+
+      <Box pos="absolute" right="0">
         <Button
           colorScheme="red"
           mr={"28px"}
