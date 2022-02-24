@@ -6,9 +6,11 @@ import { AddIcon } from '@chakra-ui/icons'
 import { todosState } from './atoms/atom'
 import TodoList from './components/TodoList'
 import Search from './components/Search'
+import Link from 'next/link'
 
 export default function Home() {
   const todos = useRecoilValue(todosState);
+  // console.log("現在のTodos：",todos);
 
   return (
     <>
@@ -30,10 +32,12 @@ export default function Home() {
           <Search />
 
           <Box mt='10' mr='5' textAlign='right'>
+            <Link href="./addtask">
             <Button>
               <AddIcon mr='2' />
               タスクを追加
             </Button>
+            </Link>
           </Box>
 
           <TodoList />

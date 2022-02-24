@@ -33,7 +33,6 @@ const Priority = () => {
           <Select
             width="163px"
             height="52px"
-            placeholder="------------"
             borderColor="#bebaba"
             borderWidth="2px"
             value={editTodo[0]?.priority}
