@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { EditIcon } from "@chakra-ui/icons";
 import {
   Button,
@@ -13,14 +13,19 @@ import {
   Th,
   Thead,
   Tr,
+  HStack,
 } from "@chakra-ui/react";
-
+import {useState} from "react"
 import { todosState } from "../atoms/atom";
 import StatusSelect from "./atoms/StatusSelect";
 import PrioritySelect from "./atoms/PrioritySelect";
 
 const TodoList = () => {
-  const todos = useRecoilValue(todosState);
+  const [todos, setTodos] = useRecoilState(todosState);
+  const [statusArrow, setStatusArrow] = useState("▲");
+  const [priorityArrow, setPriorityArrow] = useState("▲");
+  const [createArrow, setCreateArrow] = useState("▲");
+  const [updateArrow, setUpdateArrow] = useState("▲");
 
   const renderStatus = (todo) => {
     switch (todo.status) {
@@ -54,7 +59,66 @@ const TodoList = () => {
     }
   };
 
-  
+  const handleSortStatus=(todos) =>{
+    const high = todos.filter((todo) => todo.status === "完了");
+    const middle = todos.filter((todo) => todo.status === "進行中");
+    const low = todos.filter((todo) => todo.status === "着手前");
+    if(statusArrow==="▲"){
+      setTodos([...low, ...middle, ...high]);
+      setStatusArrow("▼");
+    }else{
+      setTodos([...high, ...middle, ...low])
+      setStatusArrow("▲");
+    }
+  }
+
+  const handleSortPriority=(todos) =>{
+    const high = todos.filter((todo) => todo.priority === "高");
+    const middle = todos.filter((todo) => todo.priority === "中");
+    const low = todos.filter((todo) => todo.priority === "低");
+    if(priorityArrow==="▲"){
+      setTodos([...low, ...middle, ...high]);
+      setPriorityArrow("▼");
+    }else{
+      setTodos([...high, ...middle, ...low])
+      setPriorityArrow("▲");
+    }
+  }
+
+  const handleSortCreate=(todos) =>{
+    const targetTodos = [...todos]
+    if(createArrow==="▲"){
+      targetTodos.sort((a,b)=>{
+        return new Date(a.createDate) - new Date(b.createDate)
+      });
+      setTodos(targetTodos);
+      setCreateArrow("▼");
+    }else{
+      targetTodos.sort((a,b)=>{
+        return new Date(b.createDate) - new Date(a.createDate)
+      })
+      setTodos(targetTodos);
+      setCreateArrow("▲");
+    }
+  }
+
+  const handleSortUpdate=(todos) =>{
+    const targetTodos = [...todos]
+    if(updateArrow==="▲"){
+      targetTodos.sort((a,b)=>{
+        return new Date(a.updateDate) - new Date(b.updateDate)
+      });
+      setTodos(targetTodos);
+      setUpdateArrow("▼");
+    }else{
+      targetTodos.sort((a,b)=>{
+        return new Date(b.updateDate) - new Date(a.updateDate)
+      })
+      setTodos(targetTodos);
+      setUpdateArrow("▲");
+    }
+  }
+
 
   return (
     <>
@@ -63,10 +127,40 @@ const TodoList = () => {
           <Thead bg="gray.100">
             <Tr>
               <Th>タスク名</Th>
-              <Th>ステータス</Th>
-              <Th>優先度</Th>
-              <Th>作成日時</Th>
-              <Th>更新日時</Th>
+              <Th>
+                <HStack>
+                  <Text>ステータス</Text>
+                    <Button colorScheme="yellow" size="xs" variant="outline" onClick={()=>{handleSortStatus(todos)}}>
+                      {statusArrow}
+                    </Button>
+                </HStack>
+              </Th>
+              <Th>
+                <HStack>
+                  <Text>優先度</Text>
+                    <Button colorScheme="yellow" size="xs" variant="outline" onClick={()=>{handle}}
+                    onClick={() => {handleSortPriority(todos)}}
+                    >
+                      {priorityArrow}
+                    </Button>
+                </HStack>
+              </Th>
+              <Th>
+                <HStack>
+                  <Text>作成日時</Text>
+                    <Button colorScheme="yellow" size="xs" variant="outline" onClick={()=>{handleSortCreate(todos)}}>
+                      {createArrow}
+                    </Button>
+                </HStack>
+              </Th>
+              <Th>
+                <HStack>
+                  <Text>更新日時</Text>
+                    <Button colorScheme="yellow" size="xs" variant="outline" onClick={()=>{handleSortUpdate(todos)}}>
+                      {updateArrow}
+                    </Button>
+                </HStack>
+              </Th>
             </Tr>
           </Thead>
 
