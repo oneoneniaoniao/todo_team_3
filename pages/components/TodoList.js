@@ -138,8 +138,7 @@ const TodoList = () => {
               <Th>
                 <HStack>
                   <Text>優先度</Text>
-                    <Button colorScheme="yellow" size="xs" variant="outline" onClick={()=>{handle}}
-                    onClick={() => {handleSortPriority(todos)}}
+                    <Button colorScheme="yellow" size="xs" variant="outline" onClick={() => {handleSortPriority(todos)}}
                     >
                       {priorityArrow}
                     </Button>
