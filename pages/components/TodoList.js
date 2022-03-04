@@ -1,11 +1,10 @@
 import Link from "next/link";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { EditIcon } from "@chakra-ui/icons";
 import {
   Button,
   Checkbox,
   Container,
-  Select,
   Table,
   Tbody,
   Td,
@@ -18,9 +17,10 @@ import {
 import { todosState } from "../atoms/atom";
 import StatusSelect from "./atoms/StatusSelect";
 import PrioritySelect from "./atoms/PrioritySelect";
+import useMultipleChecked from "./atoms/useMultipleChecked";
 
 const TodoList = () => {
-  const todos = useRecoilValue(todosState);
+  const [todos, setTodos] = useRecoilState(todosState);
 
   const renderStatus = (todo) => {
     switch (todo.status) {
@@ -54,7 +54,18 @@ const TodoList = () => {
     }
   };
 
-  
+  const { checked, toggleChecked, toggleCheckAll } = useMultipleChecked(
+    todos.map((todo) => todo.id)
+  );
+
+  const handleClickDelete = () => {
+    const newTodos = todos.filter((todo) => {
+      if (!checked.includes(todo.id)) {
+        return todo;
+      }
+    });
+    setTodos(newTodos);
+  };
 
   return (
     <>
@@ -74,7 +85,10 @@ const TodoList = () => {
             {todos.map((todo) => (
               <Tr key={todo.id}>
                 <Td display="flex" justifyContent="space-between" h="65.5px">
-                  <Checkbox />
+                  <Checkbox
+                    onChange={() => toggleChecked(todo.id)}
+                    isChecked={checked.includes(todo.id)}
+                  />
                   <Link href={`/todos/${todo.id}`} passHref>
                     <Text
                       cursor="pointer"
@@ -105,6 +119,19 @@ const TodoList = () => {
             ))}
           </Tbody>
         </Table>
+        <Button mt="4" size="sm" onClick={toggleCheckAll}>
+          全選択/全解除
+        </Button>
+
+        <Button
+          colorScheme={"red"}
+          ml="4"
+          mt="4"
+          size="sm"
+          onClick={handleClickDelete}
+        >
+          選択したTodoを削除
+        </Button>
       </Container>
     </>
   );
