@@ -32,7 +32,7 @@ export default function Home() {
           <Search />
 
           <Box mt='10' mr='5' textAlign='right'>
-            <Link href="./addtask">
+            <Link href="/addtask">
             <Button>
               <AddIcon mr='2' />
               タスクを追加
