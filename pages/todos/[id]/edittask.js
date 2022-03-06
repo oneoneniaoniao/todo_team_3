@@ -69,7 +69,7 @@ const edittask = () => {
       <Button
           colorScheme={"red"}
           mr={"28px"}
-          onClick={()=>handleClickDelete()}
+          onClick={handleClickDelete}
         >削除</Button>
         <UserButton
           colorScheme={"teal"}

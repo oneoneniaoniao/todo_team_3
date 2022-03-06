@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRecoilState } from "recoil";
 import { EditIcon } from "@chakra-ui/icons";
 import {
+  Box,
   Button,
   Checkbox,
   Container,
@@ -138,10 +139,13 @@ const TodoList = () => {
           <Thead bg="gray.100">
             <Tr>
               <Th px={4} textAlign="center">
-                <Button colorScheme="yellow" p={4} variant="solid" size="xs" onClick={toggleCheckAll} fontWeight="normal">
+                <HStack spacing="0">
+                  <Checkbox fontWeight="normal" onChange={toggleCheckAll} isChecked={checked.length===todos.length}>
+                  </Checkbox>
+                <Box pl="8px" onClick={toggleCheckAll}>
                   全選択
-                  <br/>全解除
-                </Button>
+                  </Box>
+                  </HStack>
               </Th>
               <Th>タスク名</Th>
               <Th>
