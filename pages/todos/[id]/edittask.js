@@ -18,26 +18,32 @@ import { useRecoilState } from "recoil";
 import UserButton from "../../components/atoms/Button";
 import { todosState } from "../../atoms/atom";
 import Header from "../../components/organisms/layout/Header";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const NewTodo = () => {
   const [todos, setTodos] = useRecoilState(todosState);
-  const router = useRouter();
+  const [newTitle, setNewTitle] = useState("");
+  const [newText, setNewText] = useState("");
+  const [newStatus, setNewStatus] = useState("");
+  const [newPriority, setNewPriority] = useState("");
+  const toast = useToast();
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { query } = useRouter();
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { query, isReady } = useRouter();
+
+  useEffect(() => {
+    if (isReady) {
+      setNewTitle(editTodo[0].title);
+      setNewText(editTodo[0].text);
+      setNewStatus(editTodo[0].status);
+      setNewPriority(editTodo[0].priority);
+    } else {
+      return;
+    }
+  }, [isReady]);
 
   const editTodo = todos.filter((todo) => {
     return todo.id === Number(query.id);
   });
-  if (!router.isReady) {
-    return null;
-  }
-  const [newTitle, setNewTitle] = useState(editTodo[0].title);
-  const [newText, setNewText] = useState(editTodo[0].text);
-  const [newStatus, setNewStatus] = useState(editTodo[0].status);
-  const [newPriority, setNewPriority] = useState(editTodo[0].priority);
 
   const today = () => {
     const year = new Date().getFullYear() + "-";
@@ -45,7 +51,6 @@ const NewTodo = () => {
     const date = new Date().getDate();
     return year + month + date;
   };
-  const toast = useToast();
 
   const handleSetNewTitle = (e) => {
     setNewTitle(e.target.value);
@@ -62,11 +67,11 @@ const NewTodo = () => {
 
   const handleEditTodo = (id, title, text, status, priority) => {
     const foundTodo = todos.findIndex((todo) => todo.id === id);
-    if(title === "" || text === ""){
+    if (title === "" || text === "") {
       return toast({
         title: "文字を入力してください",
         position: "top",
-        status: 'warning',
+        status: "warning",
         duration: 2000,
         isClosable: true,
       });
