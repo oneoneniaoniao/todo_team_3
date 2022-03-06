@@ -137,7 +137,7 @@ const TodoList = () => {
         <Table>
           <Thead bg="gray.100">
             <Tr>
-              <Th>
+              <Th px={4} textAlign="center">
                 <Button colorScheme="yellow" p={4} variant="solid" size="xs" onClick={toggleCheckAll} fontWeight="normal">
                   全選択
                   <br/>全解除
