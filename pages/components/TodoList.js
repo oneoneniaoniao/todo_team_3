@@ -2,10 +2,10 @@ import Link from "next/link";
 import { useRecoilState } from "recoil";
 import { EditIcon } from "@chakra-ui/icons";
 import {
+  Box,
   Button,
   Checkbox,
   Container,
-  Select,
   Table,
   Tbody,
   Td,
@@ -15,10 +15,11 @@ import {
   Tr,
   HStack,
 } from "@chakra-ui/react";
-import {useState} from "react"
+import { useState } from "react";
 import { todosState } from "../atoms/atom";
 import StatusSelect from "./atoms/StatusSelect";
 import PrioritySelect from "./atoms/PrioritySelect";
+import useMultipleChecked from "./atoms/useMultipleChecked";
 
 const TodoList = () => {
   const [todos, setTodos] = useRecoilState(todosState);
@@ -59,66 +60,77 @@ const TodoList = () => {
     }
   };
 
-  const handleSortStatus=(todos) =>{
+  const { checked, toggleChecked, toggleCheckAll } = useMultipleChecked(
+    todos.map((todo) => todo.id)
+  );
+
+  const handleClickDelete = () => {
+    const newTodos = todos.filter((todo) => {
+      if (!checked.includes(todo.id)) {
+        return todo;
+      }
+    });
+    setTodos(newTodos);
+  };
+  const handleSortStatus = (todos) => {
     const high = todos.filter((todo) => todo.status === "完了");
     const middle = todos.filter((todo) => todo.status === "進行中");
     const low = todos.filter((todo) => todo.status === "着手前");
-    if(statusArrow==="▲"){
+    if (statusArrow === "▲") {
       setTodos([...low, ...middle, ...high]);
       setStatusArrow("▼");
-    }else{
-      setTodos([...high, ...middle, ...low])
+    } else {
+      setTodos([...high, ...middle, ...low]);
       setStatusArrow("▲");
     }
-  }
+  };
 
-  const handleSortPriority=(todos) =>{
+  const handleSortPriority = (todos) => {
     const high = todos.filter((todo) => todo.priority === "高");
     const middle = todos.filter((todo) => todo.priority === "中");
     const low = todos.filter((todo) => todo.priority === "低");
-    if(priorityArrow==="▲"){
+    if (priorityArrow === "▲") {
       setTodos([...low, ...middle, ...high]);
       setPriorityArrow("▼");
-    }else{
-      setTodos([...high, ...middle, ...low])
+    } else {
+      setTodos([...high, ...middle, ...low]);
       setPriorityArrow("▲");
     }
-  }
+  };
 
-  const handleSortCreate=(todos) =>{
-    const targetTodos = [...todos]
-    if(createArrow==="▲"){
-      targetTodos.sort((a,b)=>{
-        return new Date(a.createDate) - new Date(b.createDate)
+  const handleSortCreate = (todos) => {
+    const targetTodos = [...todos];
+    if (createArrow === "▲") {
+      targetTodos.sort((a, b) => {
+        return new Date(a.createDate) - new Date(b.createDate);
       });
       setTodos(targetTodos);
       setCreateArrow("▼");
-    }else{
-      targetTodos.sort((a,b)=>{
-        return new Date(b.createDate) - new Date(a.createDate)
-      })
+    } else {
+      targetTodos.sort((a, b) => {
+        return new Date(b.createDate) - new Date(a.createDate);
+      });
       setTodos(targetTodos);
       setCreateArrow("▲");
     }
-  }
+  };
 
-  const handleSortUpdate=(todos) =>{
-    const targetTodos = [...todos]
-    if(updateArrow==="▲"){
-      targetTodos.sort((a,b)=>{
-        return new Date(a.updateDate) - new Date(b.updateDate)
+  const handleSortUpdate = (todos) => {
+    const targetTodos = [...todos];
+    if (updateArrow === "▲") {
+      targetTodos.sort((a, b) => {
+        return new Date(a.updateDate) - new Date(b.updateDate);
       });
       setTodos(targetTodos);
       setUpdateArrow("▼");
-    }else{
-      targetTodos.sort((a,b)=>{
-        return new Date(b.updateDate) - new Date(a.updateDate)
-      })
+    } else {
+      targetTodos.sort((a, b) => {
+        return new Date(b.updateDate) - new Date(a.updateDate);
+      });
       setTodos(targetTodos);
       setUpdateArrow("▲");
     }
-  }
-
+  };
 
   return (
     <>
@@ -126,38 +138,74 @@ const TodoList = () => {
         <Table>
           <Thead bg="gray.100">
             <Tr>
+              <Th px={4} textAlign="center">
+                <HStack spacing="0">
+                  <Checkbox fontWeight="normal" onChange={toggleCheckAll} isChecked={checked.length===todos.length}>
+                  </Checkbox>
+                <Box pl="8px" onClick={toggleCheckAll}>
+                  全選択
+                  </Box>
+                  </HStack>
+              </Th>
               <Th>タスク名</Th>
               <Th>
                 <HStack>
                   <Text>ステータス</Text>
-                    <Button colorScheme="yellow" size="xs" variant="outline" onClick={()=>{handleSortStatus(todos)}}>
-                      {statusArrow}
-                    </Button>
+                  <Button
+                    colorScheme="yellow"
+                    size="xs"
+                    variant="outline"
+                    onClick={() => {
+                      handleSortStatus(todos);
+                    }}
+                  >
+                    {statusArrow}
+                  </Button>
                 </HStack>
               </Th>
               <Th>
                 <HStack>
                   <Text>優先度</Text>
-                    <Button colorScheme="yellow" size="xs" variant="outline" onClick={() => {handleSortPriority(todos)}}
-                    >
-                      {priorityArrow}
-                    </Button>
+                  <Button
+                    colorScheme="yellow"
+                    size="xs"
+                    variant="outline"
+                    onClick={() => {
+                      handleSortPriority(todos);
+                    }}
+                  >
+                    {priorityArrow}
+                  </Button>
                 </HStack>
               </Th>
               <Th>
                 <HStack>
                   <Text>作成日時</Text>
-                    <Button colorScheme="yellow" size="xs" variant="outline" onClick={()=>{handleSortCreate(todos)}}>
-                      {createArrow}
-                    </Button>
+                  <Button
+                    colorScheme="yellow"
+                    size="xs"
+                    variant="outline"
+                    onClick={() => {
+                      handleSortCreate(todos);
+                    }}
+                  >
+                    {createArrow}
+                  </Button>
                 </HStack>
               </Th>
               <Th>
                 <HStack>
                   <Text>更新日時</Text>
-                    <Button colorScheme="yellow" size="xs" variant="outline" onClick={()=>{handleSortUpdate(todos)}}>
-                      {updateArrow}
-                    </Button>
+                  <Button
+                    colorScheme="yellow"
+                    size="xs"
+                    variant="outline"
+                    onClick={() => {
+                      handleSortUpdate(todos);
+                    }}
+                  >
+                    {updateArrow}
+                  </Button>
                 </HStack>
               </Th>
             </Tr>
@@ -166,8 +214,13 @@ const TodoList = () => {
           <Tbody>
             {todos.map((todo) => (
               <Tr key={todo.id}>
-                <Td display="flex" justifyContent="space-between" h="65.5px">
-                  <Checkbox />
+                <Td textAlign="center">
+                  <Checkbox
+                    onChange={() => toggleChecked(todo.id)}
+                    isChecked={checked.includes(todo.id)}
+                  />
+                </Td>
+                <Td>
                   <Link href={`/todos/${todo.id}`} passHref>
                     <Text
                       cursor="pointer"
@@ -198,6 +251,16 @@ const TodoList = () => {
             ))}
           </Tbody>
         </Table>
+
+        <Button
+          colorScheme={"red"}
+          ml="4"
+          mt="4"
+          size="sm"
+          onClick={handleClickDelete}
+        >
+          選択したTodoを削除
+        </Button>
       </Container>
     </>
   );
