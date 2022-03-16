@@ -5,7 +5,7 @@ import {
   Box,
   Button,
   Checkbox,
-  Container,
+  Flex,
   Table,
   Tbody,
   Td,
@@ -14,6 +14,7 @@ import {
   Thead,
   Tr,
   HStack,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { todosState } from "../atoms/atom";
@@ -27,7 +28,7 @@ const TodoList = () => {
   const [priorityArrow, setPriorityArrow] = useState("▲");
   const [createArrow, setCreateArrow] = useState("▲");
   const [updateArrow, setUpdateArrow] = useState("▲");
-
+  const buttonSize = useBreakpointValue({base:"sm", md:"md"})
   const renderStatus = (todo) => {
     switch (todo.status) {
       case "着手前":
@@ -134,23 +135,33 @@ const TodoList = () => {
 
   return (
     <>
-      <Container h="100%" maxW="100%" mt="5">
-        <Table>
+      <Box overflowX="auto">
+        <Table mt="5" minW="750px">
           <Thead bg="gray.100">
             <Tr>
-              <Th px={4} textAlign="center">
-                <HStack spacing="0">
-                  <Checkbox fontWeight="normal" onChange={toggleCheckAll} isChecked={checked.length===todos.length}>
-                  </Checkbox>
-                <Box pl="8px" onClick={toggleCheckAll}>
-                  全選択
+              <Th p={[2, 2,3]} width="120px">
+                <Flex alignItems="center" justifyContent="center">
+                  <Checkbox
+                    fontWeight="normal"
+                    onChange={toggleCheckAll}
+                    isChecked={checked.length === todos.length}
+                  ></Checkbox>
+                  <Box
+                    fontSize={["14px", "16px"]}
+                    fontWeight="normal"
+                    pl={["2px", "8px"]}
+                    onClick={toggleCheckAll}
+                  >
+                    全選択
                   </Box>
-                  </HStack>
+                </Flex>
               </Th>
-              <Th>タスク名</Th>
-              <Th>
-                <HStack>
-                  <Text>ステータス</Text>
+              <Th p={[2, 2,3]} fontSize={["14px", "16px"]} width="200px" fontWeight="normal">
+                タスク名
+              </Th>
+              <Th p={[2, 2,3]}  width="150px">
+                <HStack spacing={["2px","2px",1]}>
+                  <Text fontSize={["14px", "16px"]} fontWeight="normal">ステータス</Text>
                   <Button
                     colorScheme="yellow"
                     size="xs"
@@ -163,8 +174,8 @@ const TodoList = () => {
                   </Button>
                 </HStack>
               </Th>
-              <Th>
-                <HStack>
+              <Th p={[2, 2,3]} fontSize={["14px", "16px"]} fontWeight="normal" width="120px">
+                <HStack spacing={["2px","2px",1]}>
                   <Text>優先度</Text>
                   <Button
                     colorScheme="yellow"
@@ -178,8 +189,8 @@ const TodoList = () => {
                   </Button>
                 </HStack>
               </Th>
-              <Th>
-                <HStack>
+              <Th p={[2, 2,3]}  fontSize={["14px", "16px"]} fontWeight="normal" width="145px">
+                <HStack spacing={["2px","2px",1]}>
                   <Text>作成日時</Text>
                   <Button
                     colorScheme="yellow"
@@ -193,8 +204,8 @@ const TodoList = () => {
                   </Button>
                 </HStack>
               </Th>
-              <Th>
-                <HStack>
+              <Th p={[2, 2,3]} fontSize={["14px", "16px"]} fontWeight="normal" width="145px">
+                <HStack spacing={["2px","2px",1]}>
                   <Text>更新日時</Text>
                   <Button
                     colorScheme="yellow"
@@ -210,58 +221,61 @@ const TodoList = () => {
               </Th>
             </Tr>
           </Thead>
-
           <Tbody>
             {todos.map((todo) => (
               <Tr key={todo.id}>
-                <Td textAlign="center">
-                  <Checkbox
-                    onChange={() => toggleChecked(todo.id)}
-                    isChecked={checked.includes(todo.id)}
-                  />
+                <Td p={[1, 2]} textAlign="center">
+                  <Box>
+                    <Checkbox
+                      onChange={() => toggleChecked(todo.id)}
+                      isChecked={checked.includes(todo.id)}
+                    />
+                  </Box>
                 </Td>
-                <Td>
+                <Td px={[1, 2]} py={[2, 3]}>
+                  <Flex justify="start" align="center">
                   <Link href={`/todos/${todo.id}`} passHref>
                     <Text
                       cursor="pointer"
                       _hover={{ opacity: 0.7 }}
-                      lineHeight="32.5px"
+                      fontSize={["14px", "16px"]}
+                      lineHeight="1.4"
                     >
                       {todo.title}
                     </Text>
                   </Link>
-                  <Link href={`/todos/${todo.id}/edittask`} passHref>
-                    <Button size="xs" colorScheme="teal" variant="outline">
-                      <EditIcon />
-                    </Button>
-                  </Link>
+                  <Box ml="2px">
+                    <Link href={`/todos/${todo.id}/edittask`} passHref>
+                      <Button size="xs" colorScheme="teal" variant="outline" m={[0,"2px", 1]}>
+                        <EditIcon />
+                      </Button>
+                    </Link>
+                  </Box>
+                  </Flex>
                 </Td>
-
-                <Td color={renderStatus(todo)}>
-                  <StatusSelect todo={todo} />
+                <Td p={[1, 2]} color={renderStatus(todo)}>
+                  <StatusSelect todo={todo}/>
                 </Td>
-
-                <Td color={renderPriority(todo)}>
+                <Td p={[1, 2]} color={renderPriority(todo)}>
                   <PrioritySelect todo={todo} />
                 </Td>
-
-                <Td>{todo.createDate}</Td>
-                <Td>{todo.updateDate}</Td>
+                <Td  px={[1, 2]} py={[2, 3]} fontSize={["14px", "16px"]}><Box lineHeight="1.4">{todo.updateDate}</Box></Td>
+                <Td  px={[1, 2]} py={[2, 3]} fontSize={["14px", "16px"]}><Box lineHeight="1.4">{todo.createDate}</Box></Td>
               </Tr>
             ))}
           </Tbody>
         </Table>
+      </Box>
 
-        <Button
-          colorScheme={"red"}
-          ml="4"
-          mt="4"
-          size="sm"
-          onClick={handleClickDelete}
-        >
-          選択したTodoを削除
-        </Button>
-      </Container>
+      <Button
+        colorScheme={"red"}
+        ml={["4","4",0]}
+        my={["4","4","6"]}
+        size={buttonSize}
+        onClick={handleClickDelete}
+      >
+        選択したTodoを削除
+      </Button>
     </>
   );
 };

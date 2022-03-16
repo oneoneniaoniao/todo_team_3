@@ -23,13 +23,13 @@ const PrioritySelect = ({ todo }) => {
         });
       }
     });
-   
+    
   };
   return (
     <select
       value={todo.priority}
       onChange={(e) => handleSetNewPriority(todo.id, e.target.value)}
-      style={{ outline: "none" }}
+      style={{fontSize:"14px"}}
     >
       <option value="高">高</option>
       <option value="中">中</option>
