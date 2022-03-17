@@ -14,6 +14,7 @@ import {
 import { todosState } from '../atoms/atom';
 import UserButton from './atoms/Button';
 import useDelete from '../../src/hooks/useDelete';
+import BackToTopButton from './atoms/BackToTopButton';
 
 export default function Detail() {
   const router = useRouter();
@@ -76,13 +77,7 @@ export default function Detail() {
           mr={"28px"}
           onClick={handleClickDelete}
         >削除</Button>
-        <UserButton
-          colorScheme={"teal"}
-          color={"#FFFFFF"}
-          text={"戻る"}
-          mr={"16px"}
-          url={"/"}
-        />
+        <BackToTopButton />
         </Flex>
       </Container>
     </>

@@ -5,6 +5,7 @@ import { Box, Button, CircularProgress} from "@chakra-ui/react";
 import { todosState } from "../../atoms/atom";
 import Border from "../../components/atoms/Border";
 import UserButton from "../../components/atoms/Button";
+import BackToTopButton from "../../components/atoms/BackToTopButton";
 import Context from "../../components/organisms/layout/Context";
 import Header from "../../components/organisms/layout/Header";
 import Priority from "../../components/organisms/layout/Priority";
@@ -65,13 +66,7 @@ const edittask = () => {
           mr={"28px"}
           onClick={handleClickDelete}
         >削除</Button>
-        <UserButton
-          colorScheme={"teal"}
-          color={"#FFFFFF"}
-          text={"戻る"}
-          mr={"28px"}
-          url={"/"}
-        />
+        <BackToTopButton />
         <UserButton
           colorScheme={"blue"}
           color={"#FFFFFF"}
