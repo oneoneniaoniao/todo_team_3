@@ -5,11 +5,13 @@ import { Box, Button, CircularProgress} from "@chakra-ui/react";
 import { todosState } from "../../atoms/atom";
 import Border from "../../components/atoms/Border";
 import UserButton from "../../components/atoms/Button";
+import BackToTopButton from "../../components/atoms/BackToTopButton";
 import Context from "../../components/organisms/layout/Context";
 import Header from "../../components/organisms/layout/Header";
 import Priority from "../../components/organisms/layout/Priority";
 import Status from "../../components/organisms/layout/Status";
 import Task from "../../components/organisms/layout/Task";
+import useDelete from '../../../src/hooks/useDelete';
 
 const edittask = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -17,18 +19,11 @@ const edittask = () => {
   const {query, isReady} = router;
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [todos, setTodos] = useRecoilState(todosState)
+  const handleClickDelete = useDelete();
     
   const editTodo = todos.filter((todo) => {
     return todo.id === Number(query.id);
   })
-
-  const handleClickDelete = () => {
-    if(confirm("下記ToDoを削除しますか？")){
-      const newTodos = todos.filter((todo) => todo.id !== Number(query.id));   
-      setTodos(newTodos);
-    router.push("/");
-    }
-  };
 
   if (!isReady) {
     return (
@@ -71,13 +66,7 @@ const edittask = () => {
           mr={"28px"}
           onClick={handleClickDelete}
         >削除</Button>
-        <UserButton
-          colorScheme={"teal"}
-          color={"#FFFFFF"}
-          text={"戻る"}
-          mr={"28px"}
-          url={"/"}
-        />
+        <BackToTopButton />
         <UserButton
           colorScheme={"blue"}
           color={"#FFFFFF"}

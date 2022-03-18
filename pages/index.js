@@ -1,15 +1,47 @@
 import Head from 'next/head'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useState, useEffect } from 'react'
+import { useRecoilValue } from 'recoil'
 import { Box, Button, Container, Heading, Text} from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 
 import { todosState } from './atoms/atom'
-import TodoList from './components/TodoList.js'
+import TodoList from './components/TodoList'
 import Search from './components/Search'
 import Link from 'next/link'
 
 export default function Home() {
   const todos = useRecoilValue(todosState);
+  const [priority, setPriority] = useState("All");
+  const [status, setStatus] = useState("All");
+  const [inputFilter, setInputFilter] = useState(null);
+  const [searchTodos, setSearchTodos] = useState([]);
+
+  useEffect(() => {
+    if (priority === "All" && status === "All" && !inputFilter) {
+      setSearchTodos(null);
+    } else {
+      if (priority !== "All" && status !== "All") {
+        setSearchTodos(
+          todos.filter((todo) => {
+            return todo.priority === priority && todo.status === status ? true : false;
+          })
+        )
+      } else  {
+        setSearchTodos(
+          todos.filter((todo) => {
+            return todo.priority === priority || todo.status === status ? true : false;
+          })
+        )
+      }
+
+      if (inputFilter) {
+        const filterList = todos.filter((todo) => (
+          todo.title.toString().indexOf(inputFilter) >= 0
+        ));
+        setSearchTodos(filterList);
+      }
+    }
+  }, [status, priority, inputFilter, todos])
 
   return (
     <>
@@ -30,7 +62,10 @@ export default function Home() {
             <Text fontSize={['sm','lg']} fontWeight='bold' letterSpacing='3px' p={[1,2]}>
               {todos.length >= 1 ? `タスクは${todos.length}個あります` : '現在タスクはありません'}
             </Text>
-            <Search />
+            <Search 
+            setStatus={setStatus}
+            setPriority={setPriority}
+            setInputFilter={setInputFilter}/>
             <Box mt='5' mr={[2,2,0]} textAlign='right'>
               <Link href="/addtask">
               <Button fontSize={['sm','md']}>
@@ -39,7 +74,9 @@ export default function Home() {
               </Button>
               </Link>
             </Box>
-            <TodoList />
+            <TodoList 
+            searchTodos={searchTodos}
+            />
           </Box>
         </Container>
       </Container>
