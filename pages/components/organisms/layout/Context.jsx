@@ -11,7 +11,7 @@ const Context = () => {
     return todo.id === Number(query.id);
   })
 
-  const hadleEditContext = (text) => {
+  const handleEditContext = (text) => {
     const foundTodo = todos.findIndex((todo) => todo.id === editTodo[0]?.id);
 
     const replaceItemAtIndex = (todos, foundTodo, newValue) => {
@@ -47,7 +47,7 @@ const Context = () => {
             borderColor="#bebaba"
             borderWidth="2px"
             value={editTodo[0]?.text}
-            onChange={(e)=>hadleEditContext(e.target.value)}
+            onChange={(e)=>handleEditContext(e.target.value)}
           />
         </Box>
       </HStack>
