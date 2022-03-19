@@ -18,35 +18,17 @@ import { useRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
 import { todosState, idState } from "../atoms/atom";
 import UserButton from "./atoms/Button";
+import onSubmitHooks from "./onSubmitHooks";
 
 const NewTodo = () => {
-  const router = useRouter();
-  const [todos, setTodos] = useRecoilState(todosState);
-  const [id, setId] = useRecoilState(idState);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ criteriaMode: "all" });
 
-  const today = () => {
-    const year = new Date().getFullYear() + "-";
-    const month = new Date().getMonth() * 1 + 1 + "-";
-    const date = new Date().getDate();
-    return year + month + date;
-  };
-
-  const onSubmit = (e) => {
-    setId(++id);
-    const newTodo = {
-      id: id,
-      createDate: today(),
-      updateDate: today(),
-      ...e,
-    };
-    setTodos([...todos, newTodo]);
-    router.push("/")
-  };
+  // onSubmit hooks
+  const { onSubmit } = onSubmitHooks();
 
   return (
     <>
