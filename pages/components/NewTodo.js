@@ -13,10 +13,7 @@ import {
   FormLabel,
   Input,
 } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import { useRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
-import { todosState, idState } from "../atoms/atom";
 import UserButton from "./atoms/Button";
 import onSubmitHooks from "./onSubmitHooks";
 
