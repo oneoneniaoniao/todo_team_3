@@ -12,7 +12,7 @@ const Search = ({ setStatus, setPriority, setInputFilter }) => {
 
       <Box>
         <Text textAlign='center'>ステータス</Text>
-        <Select minW={["70px", "80px"]} fontSize={["14px","16px"]} defaultValue={'All'} onChange={(e) => setStatus(e.target.value)}>
+        <Select minW={["70px", "80px"]} fontSize={["14px","16px"]} defaultValue={'全て'} onChange={(e) => setStatus(e.target.value)}>
           <option value='全て'>全て</option>
           <option value='着手前'>着手前</option>
           <option value='進行中'>進行中</option>
