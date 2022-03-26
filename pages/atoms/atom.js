@@ -39,7 +39,6 @@ export const todosState = atom({
   // effects_UNSTABLE:[persistAtom]
 })
 
-
 export const idState = atom({
   key:"id",
   default: 4,

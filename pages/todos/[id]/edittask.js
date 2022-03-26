@@ -19,6 +19,7 @@ import UserButton from "../../components/atoms/Button";
 import { todosState } from "../../atoms/atom";
 import Header from "../../components/organisms/layout/Header";
 import { useState, useEffect } from "react";
+import Today from "../../components/Today";
 
 const NewTodo = () => {
   const [todos, setTodos] = useRecoilState(todosState);
@@ -46,12 +47,7 @@ const NewTodo = () => {
     return todo.id === Number(query.id);
   });
 
-  const today = () => {
-    const year = new Date().getFullYear() + "-";
-    const month = new Date().getMonth() * 1 + 1 + "-";
-    const date = new Date().getDate();
-    return year + month + date;
-  };
+  const { today } = Today();
 
   const handleSetNewTitle = (e) => {
     setNewTitle(e.target.value);
