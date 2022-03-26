@@ -42,6 +42,7 @@ const NewTodo = () => {
     }
   }, [isReady]);
 
+
   const editTodo = todos.filter((todo) => {
     return todo.id === Number(query.id);
   });
@@ -232,6 +233,7 @@ const NewTodo = () => {
         >
           保存
         </Button>
+
       </Box>
     </>
   );

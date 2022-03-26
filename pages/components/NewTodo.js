@@ -14,8 +14,10 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import UserButton from "./atoms/Button";
 import onSubmitHooks from "./onSubmitHooks";
+import { todosState, idState } from "../atoms/atom";
+import BackToTopButton from "./atoms/BackToTopButton";
+
 
 const NewTodo = () => {
   const {
@@ -116,13 +118,7 @@ const NewTodo = () => {
           <Button colorScheme="blue" color="#FFFFFF" mr="28px" type="submit">
             保存
           </Button>
-          <UserButton
-            colorScheme={"teal"}
-            color={"#FFFFFF"}
-            text={"戻る"}
-            mr={"28px"}
-            url="/"
-          />
+          <BackToTopButton />
         </Box>
       </form>
     </>
