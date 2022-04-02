@@ -14,7 +14,7 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import onSubmitHooks from "./onSubmitHooks";
+import useOnSubmitHooks from "./useOnSubmitHooks";
 import { todosState, idState } from "../atoms/atom";
 import BackToTopButton from "./atoms/BackToTopButton";
 
@@ -27,7 +27,7 @@ const NewTodo = () => {
   } = useForm({ criteriaMode: "all" });
 
   // onSubmit hooks
-  const { onSubmit } = onSubmitHooks();
+  const { onSubmit } = useOnSubmitHooks();
 
   return (
     <>

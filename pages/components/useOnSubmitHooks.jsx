@@ -3,10 +3,11 @@ import { useRecoilState } from "recoil";
 import { idState, todosState } from "../atoms/atom";
 import Today from "./Today";
 
-const onSubmitHooks = () => {
+const [todos, setTodos] = useRecoilState(todosState);
+const [id, setId] = useRecoilState(idState);
+
+export const useOnSubmitHooks = () => {
   const router = useRouter();
-  const [todos, setTodos] = useRecoilState(todosState);
-  const [id, setId] = useRecoilState(idState);
 
   const { today } = Today();
   const onSubmit = (e) => { 
@@ -24,4 +25,4 @@ const onSubmitHooks = () => {
   return {onSubmit};
 };
 
-export default onSubmitHooks;
+
