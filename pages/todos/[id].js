@@ -1,6 +1,6 @@
 import Head from "next/head";
-import Detail from "../components/Detail";
-import Header from "../components/organisms/layout/Header";
+import Detail from "components/Detail";
+import Header from "components/organisms/layout/Header";
 
 export default function Todo() {
   return (

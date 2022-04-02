@@ -1,5 +1,5 @@
 import { useRecoilState } from "recoil";
-import { todosState } from "../../atoms/atom";
+import { todosState } from "atoms/atom";
 
 const PrioritySelect = ({ todo }) => {
   const [todos, setTodos] = useRecoilState(todosState);
@@ -22,13 +22,12 @@ const PrioritySelect = ({ todo }) => {
         });
       }
     });
-    
   };
   return (
     <select
       value={todo.priority}
       onChange={(e) => handleSetNewPriority(todo.id, e.target.value)}
-      style={{fontSize:"14px"}}
+      style={{ fontSize: "14px" }}
     >
       <option value="高">高</option>
       <option value="中">中</option>

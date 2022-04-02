@@ -1,18 +1,17 @@
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
-import { Box, HStack, Select, Text } from "@chakra-ui/react";
+import { Box, HStack, Text, Textarea } from "@chakra-ui/react";
 
-import { todosState } from "../../../atoms/atom";
+import { todosState } from "atoms/atom";
 
-const Priority = () => {
-  const { query } = useRouter()
-  const [todos, setTodos] = useRecoilState(todosState)
-    
+const Context = () => {
+  const { query } = useRouter();
+  const [todos, setTodos] = useRecoilState(todosState);
   const editTodo = todos.filter((todo) => {
     return todo.id === Number(query.id);
-  })
+  });
 
-  const hadleEditPriority = (priority) => {
+  const handleEditContext = (text) => {
     const foundTodo = todos.findIndex((todo) => todo.id === editTodo[0]?.id);
 
     const replaceItemAtIndex = (todos, foundTodo, newValue) => {
@@ -23,10 +22,10 @@ const Priority = () => {
       ];
     };
     setTodos(() => {
-      if (todos[foundTodo].priority) {
+      if (todos[foundTodo].text) {
         return replaceItemAtIndex(todos, foundTodo, {
           ...todos[foundTodo],
-          priority: priority,
+          text: text,
         });
       }
     });
@@ -37,27 +36,22 @@ const Priority = () => {
       <HStack spacing="24px">
         <Box w="200px">
           <Text fontSize="24px" marginLeft="61px">
-            優先度:
+            内容:
           </Text>
         </Box>
-
         <Box>
-          <Select
-            width="163px"
-            height="52px"
+          <Textarea
+            width="800px"
+            height="47px"
             borderColor="#bebaba"
             borderWidth="2px"
-            value={editTodo[0]?.priority}
-            onChange={(e)=>hadleEditPriority(e.target.value)}
-          >
-            <option value="高">高</option>
-            <option value="中">中</option>
-            <option value="低">低</option>
-          </Select>
+            value={editTodo[0]?.text}
+            onChange={(e) => handleEditContext(e.target.value)}
+          />
         </Box>
       </HStack>
     </>
   );
 };
 
-export default Priority;
+export default Context;

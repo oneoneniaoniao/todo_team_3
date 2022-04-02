@@ -5,9 +5,9 @@ import UserButton from "../atoms/Button";
 import Header from "../organisms/layout/Header";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
-import { todosState } from "../../atoms/atom";
+import { todosState } from "atoms/atom";
 
-export const EditPage = () => {
+const EditPage = () => {
   const { query } = useRouter();
   const [todos, setTodos] = useRecoilState(todosState);
   const editTodo = todos.filter((todo) => {
@@ -218,3 +218,5 @@ export const EditPage = () => {
     </>
   );
 };
+
+export default EditPage;

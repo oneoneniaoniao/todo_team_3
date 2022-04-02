@@ -15,11 +15,11 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
-import UserButton from "../../components/atoms/Button";
-import { todosState } from "../../atoms/atom";
-import Header from "../../components/organisms/layout/Header";
+import UserButton from "components/atoms/Button";
+import { todosState } from "atoms/atom";
+import Header from "components/organisms/layout/Header";
 import { useState, useEffect } from "react";
-import Today from "../../components/Today";
+import Today from "components/Today";
 
 const NewTodo = () => {
   const [todos, setTodos] = useRecoilState(todosState);
@@ -41,7 +41,6 @@ const NewTodo = () => {
       return;
     }
   }, [isReady]);
-
 
   const editTodo = todos.filter((todo) => {
     return todo.id === Number(query.id);
@@ -233,7 +232,6 @@ const NewTodo = () => {
         >
           保存
         </Button>
-
       </Box>
     </>
   );

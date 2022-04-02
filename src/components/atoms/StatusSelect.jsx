@@ -1,5 +1,5 @@
 import { useRecoilState } from "recoil";
-import { todosState } from "../../atoms/atom";
+import { todosState } from "atoms/atom";
 
 const StatusSelect = ({ todo }) => {
   const [todos, setTodos] = useRecoilState(todosState);

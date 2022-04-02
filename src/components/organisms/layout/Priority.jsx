@@ -1,17 +1,18 @@
-import { useRecoilState } from "recoil";
-import { Box, HStack, Input, Text } from "@chakra-ui/react";
-
-import { todosState } from "../../../atoms/atom";
 import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
+import { Box, HStack, Select, Text } from "@chakra-ui/react";
 
-const Task = () => {
+import { todosState } from "atoms/atom";
+
+const Priority = () => {
   const { query } = useRouter();
   const [todos, setTodos] = useRecoilState(todosState);
+
   const editTodo = todos.filter((todo) => {
     return todo.id === Number(query.id);
   });
 
-  const hadleEditTask = (title) => {
+  const hadleEditPriority = (priority) => {
     const foundTodo = todos.findIndex((todo) => todo.id === editTodo[0]?.id);
 
     const replaceItemAtIndex = (todos, foundTodo, newValue) => {
@@ -22,49 +23,41 @@ const Task = () => {
       ];
     };
     setTodos(() => {
-      if (todos[foundTodo].title) {
+      if (todos[foundTodo].priority) {
         return replaceItemAtIndex(todos, foundTodo, {
           ...todos[foundTodo],
-          title: title,
+          priority: priority,
         });
       }
     });
   };
 
-  console.log(todos);
-  
-
-  // const handleChange = (e) => {
-  //   setTodos(todos.map((todo) => {
-  //     if (todo.id === editTodo[0]?.id) {
-  //       return todo.title = e.target.value;
-  //     }
-  //   }))
-  // }
-
   return (
     <>
-      <HStack marginTop="48px" spacing="24px">
+      <HStack spacing="24px">
         <Box w="200px">
           <Text fontSize="24px" marginLeft="61px">
-            タスク名:
+            優先度:
           </Text>
         </Box>
 
         <Box>
-          <Input
-            width="800px"
-            height="47px"
+          <Select
+            width="163px"
+            height="52px"
             borderColor="#bebaba"
             borderWidth="2px"
-            margin="auto"
-            value={editTodo[0]?.title || ""}
-            onChange={(e) => hadleEditTask(e.target.value)}
-          />
+            value={editTodo[0]?.priority}
+            onChange={(e) => hadleEditPriority(e.target.value)}
+          >
+            <option value="高">高</option>
+            <option value="中">中</option>
+            <option value="低">低</option>
+          </Select>
         </Box>
       </HStack>
     </>
   );
 };
 
-export default Task;
+export default Priority;

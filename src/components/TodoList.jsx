@@ -17,14 +17,14 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { todosState } from "../atoms/atom";
+import { todosState } from "atoms/atom";
 import StatusSelect from "./atoms/StatusSelect";
 import PrioritySelect from "./atoms/PrioritySelect";
 import useMultipleChecked from "./atoms/useMultipleChecked";
-import useHandleSortStatus from "../../src/hooks/useHandleSortStatus";
-import useHandleSortPriority from "../../src/hooks/useHandleSortPriority";
-import useHandleSortCreate from "../../src/hooks/useHandleSortCreate";
-import useHandleSortUpdate from "../../src/hooks/useHandleSortUpdate";
+import useHandleSortStatus from "../hooks/useHandleSortStatus";
+import useHandleSortPriority from "../hooks/useHandleSortPriority";
+import useHandleSortCreate from "../hooks/useHandleSortCreate";
+import useHandleSortUpdate from "../hooks/useHandleSortUpdate";
 
 const TodoList = ({ searchTodos }) => {
   const [todos, setTodos] = useRecoilState(todosState);
@@ -70,7 +70,7 @@ const TodoList = ({ searchTodos }) => {
         return "red";
         break;
     }
-  };  
+  };
 
   const { checked, toggleChecked, toggleCheckAll } = useMultipleChecked(
     todos.map((todo) => todo.id)
@@ -146,7 +146,11 @@ const TodoList = ({ searchTodos }) => {
                     size="xs"
                     variant="outline"
                     onClick={() => {
-                      handleSortPriority(todos, priorityArrow, setPriorityArrow);
+                      handleSortPriority(
+                        todos,
+                        priorityArrow,
+                        setPriorityArrow
+                      );
                     }}
                   >
                     {priorityArrow}
@@ -197,17 +201,17 @@ const TodoList = ({ searchTodos }) => {
           </Thead>
 
           <Tbody>
-            {searchTodos ? 
-              searchTodos.map((todo) => (
-                <Tr key={todo.id}>
-                  <Td p={[1, 2]} textAlign="center">
-                  <Box>
+            {searchTodos
+              ? searchTodos.map((todo) => (
+                  <Tr key={todo.id}>
+                    <Td p={[1, 2]} textAlign="center">
+                      <Box>
                         <Checkbox
                           onChange={() => toggleChecked(todo.id)}
                           isChecked={checked.includes(todo.id)}
                         />
                       </Box>
-                      </Td>
+                    </Td>
                     <Td px={[1, 2]} py={[2, 3]}>
                       <Flex justify="start" align="center">
                         <Link href={`/todos/${todo.id}`} passHref>

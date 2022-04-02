@@ -1,11 +1,11 @@
 import { useRecoilState } from "recoil";
-import { todosState } from "../../pages/atoms/atom";
-import { useRouter } from 'next/router';
+import { todosState } from "atoms/atom";
+import { useRouter } from "next/router";
 
 const useDelete = () => {
   const [todos, setTodos] = useRecoilState(todosState);
   const router = useRouter();
-  const handleClickDelete=() => {
+  const handleClickDelete = () => {
     if (confirm("下記ToDoを削除しますか？")) {
       const newTodos = todos.filter(
         (todo) => todo.id !== Number(router.query.id)
@@ -13,8 +13,8 @@ const useDelete = () => {
       setTodos(newTodos);
       router.push("/");
     }
-  }
-  return handleClickDelete ;
+  };
+  return handleClickDelete;
 };
 
 export default useDelete;

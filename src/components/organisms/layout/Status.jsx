@@ -2,14 +2,14 @@ import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { Box, HStack, Select, Text } from "@chakra-ui/react";
 
-import { todosState } from "../../../atoms/atom";
+import { todosState } from "atoms/atom";
 
 const Status = () => {
-  const { query } = useRouter()
+  const { query } = useRouter();
   const [todos, setTodos] = useRecoilState(todosState);
   const editTodo = todos.filter((todo) => {
     return todo.id === Number(query.id);
-  })
+  });
 
   const hadleEditStatus = (status) => {
     const foundTodo = todos.findIndex((todo) => todo.id === editTodo[0]?.id);
@@ -31,8 +31,6 @@ const Status = () => {
     });
   };
 
- 
-
   return (
     <>
       <HStack spacing="24px">
@@ -50,7 +48,7 @@ const Status = () => {
             borderColor="#bebaba"
             borderWidth="2px"
             value={editTodo[0]?.status}
-            onChange={(e)=>hadleEditStatus(e.target.value)}
+            onChange={(e) => hadleEditStatus(e.target.value)}
           >
             <option value="着手前">着手前</option>
             <option value="進行中">進行中</option>

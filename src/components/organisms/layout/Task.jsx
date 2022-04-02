@@ -1,17 +1,17 @@
-import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
-import { Box, HStack, Text, Textarea } from "@chakra-ui/react";
+import { Box, HStack, Input, Text } from "@chakra-ui/react";
 
-import { todosState } from "../../../atoms/atom";
+import { todosState } from "atoms/atom";
+import { useRouter } from "next/router";
 
-const Context = () => {
+const Task = () => {
   const { query } = useRouter();
   const [todos, setTodos] = useRecoilState(todosState);
   const editTodo = todos.filter((todo) => {
     return todo.id === Number(query.id);
-  })
+  });
 
-  const handleEditContext = (text) => {
+  const hadleEditTask = (title) => {
     const foundTodo = todos.findIndex((todo) => todo.id === editTodo[0]?.id);
 
     const replaceItemAtIndex = (todos, foundTodo, newValue) => {
@@ -22,32 +22,43 @@ const Context = () => {
       ];
     };
     setTodos(() => {
-      if (todos[foundTodo].text) {
+      if (todos[foundTodo].title) {
         return replaceItemAtIndex(todos, foundTodo, {
           ...todos[foundTodo],
-          text: text,
+          title: title,
         });
       }
     });
   };
 
-  
+  console.log(todos);
+
+  // const handleChange = (e) => {
+  //   setTodos(todos.map((todo) => {
+  //     if (todo.id === editTodo[0]?.id) {
+  //       return todo.title = e.target.value;
+  //     }
+  //   }))
+  // }
+
   return (
     <>
-      <HStack spacing="24px">
+      <HStack marginTop="48px" spacing="24px">
         <Box w="200px">
           <Text fontSize="24px" marginLeft="61px">
-            内容:
+            タスク名:
           </Text>
         </Box>
+
         <Box>
-          <Textarea
+          <Input
             width="800px"
             height="47px"
             borderColor="#bebaba"
             borderWidth="2px"
-            value={editTodo[0]?.text}
-            onChange={(e)=>handleEditContext(e.target.value)}
+            margin="auto"
+            value={editTodo[0]?.title || ""}
+            onChange={(e) => hadleEditTask(e.target.value)}
           />
         </Box>
       </HStack>
@@ -55,4 +66,4 @@ const Context = () => {
   );
 };
 
-export default Context;
+export default Task;
