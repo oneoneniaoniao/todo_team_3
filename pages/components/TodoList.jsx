@@ -33,7 +33,7 @@ const TodoList = ({ searchTodos }) => {
   const [priorityArrow, setPriorityArrow] = useState("▲");
   const [createArrow, setCreateArrow] = useState("▲");
   const [updateArrow, setUpdateArrow] = useState("▲");
-  const buttonSize = useBreakpointValue({ base: "sm", md: "md" });
+  // const buttonSize = useBreakpointValue({ base: "sm", md: "md" });
 
   const handleSortStatus = useHandleSortStatus();
   const handleSortPriority = useHandleSortPriority();
@@ -305,9 +305,9 @@ const TodoList = ({ searchTodos }) => {
 
       <Button
         colorScheme={"red"}
-        ml={["4", "4", 0]}
+        ml={["4", "4", "0"]}
         my={["4", "4", "6"]}
-        size={buttonSize}
+        size={"sm"}
         onClick={handleClickDelete}
       >
         選択したTodoを削除
