@@ -20,6 +20,7 @@ import { todosState } from "atoms/atom";
 import Header from "components/organisms/layout/Header";
 import { useState, useEffect } from "react";
 import Today from "components/Today";
+import useDelete from 'hooks/useDelete';
 
 const NewTodo = () => {
   const [todos, setTodos] = useRecoilState(todosState);
@@ -30,7 +31,8 @@ const NewTodo = () => {
   const toast = useToast();
 
   const { query, isReady } = useRouter();
-
+  const handleClickDelete = useDelete();
+  
   useEffect(() => {
     if (isReady) {
       setNewTitle(editTodo[0].title);
@@ -198,14 +200,16 @@ const NewTodo = () => {
         <Button
           colorScheme="red"
           mr={"28px"}
-          onClick={() =>
+          onClick={() =>{
             toast({
               title: "削除しました",
               position: "top",
               status: "error",
               duration: 1000,
               isClosable: true,
-            })
+            });
+            handleClickDelete();
+          }
           }
         >
           削除

@@ -84,8 +84,8 @@ const TodoList = ({ searchTodos }) => {
     });
     setTodos(newTodos);
   };
-
   return (
+    todos.length !== 0 ? (
     <>
       <Box overflowX="auto">
         <Table mt="5" minW="750px">
@@ -317,6 +317,7 @@ const TodoList = ({ searchTodos }) => {
         選択したTodoを削除
       </Button>
     </>
+  ):null
   );
 };
 
